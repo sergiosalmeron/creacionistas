@@ -1,11 +1,13 @@
 
 public abstract class Cromosoma {
 
-	boolean[] genes;
-	double fenotipo;
-	double aptitud;
-	double puntuacion;
-	double puntAcum;
+	private boolean[] genes;
+	private double fenotipo;
+	private double aptitud;
+	private double puntuacion;
+	private double puntAcum;
+	
+	
 	
 	
 }
