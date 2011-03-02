@@ -16,6 +16,7 @@ public class AGenetico {
 		this.probCruce=probCruce;
 		this.probMutacion=probMutacion;
 		this.tolerancia=tolerancia;
+		pob = new Cromosoma[tamPob];
 	}
 	
 	public AGenetico(){
@@ -24,9 +25,18 @@ public class AGenetico {
 		this.probCruce=0.3;
 		this.probMutacion=0.05;
 		this.tolerancia=1;
+		pob = new Cromosoma[tamPob];
 	}
 	
-	private double calculaLongCromosomaF1(){
+	
+	public void inicializa(){
+		int longitud=calculaLongCromosomaF1();
+		for (int i=0; i<tamPob; i++){
+			pob[i]=new CromosomaF1(longitud);
+		}
+	}
+	
+	private int calculaLongCromosomaF1(){
 		CromosomaF1 aux=new CromosomaF1();
 		return aux.calculaLongCromosoma(tolerancia);
 	}

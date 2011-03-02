@@ -7,6 +7,7 @@ public class Principal {
 	public static void main(String[] args) {
 		
 		AGenetico AG=new AGenetico();
+		AG.inicializa();
 		
 		
 
