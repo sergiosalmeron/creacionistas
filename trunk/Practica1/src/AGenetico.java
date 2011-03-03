@@ -27,10 +27,10 @@ public class AGenetico {
 	
 	public AGenetico(){
 		this.tamPob=100;
-		this.numMaxGen=20;
-		this.probCruce=0.3;
+		this.numMaxGen=100;
+		this.probCruce=0.25;
 		this.probMutacion=0.05;
-		this.tolerancia=0.1;
+		this.tolerancia=0.0001;
 		pob = new Cromosoma[tamPob];
 	}
 	
@@ -161,6 +161,25 @@ public class AGenetico {
 		madre.evalua();
 	}
 	
+
+	// Mutación ///////////////////////////////////////////////////////
+	
+	public void mutacion(){
+		Random r=new Random();
+		double probabilidad;
+		for (int i=0; i<tamPob; i++){
+			boolean mutado=false;
+			for (int j=0; j<pob[i].getLongCromosoma(); j++){
+				probabilidad=r.nextDouble();
+				if (probabilidad<probMutacion){
+					pob[i].mutaGen(j);
+					mutado=true;
+				}
+			}
+			if (mutado)
+			pob[i].evalua();
+		}
+	}
 
 
 }

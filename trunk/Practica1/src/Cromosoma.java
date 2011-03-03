@@ -40,6 +40,10 @@ public abstract class Cromosoma {
 		}
 	}
 	
+	public void mutaGen(int i){
+		genes[i]=!genes[i];
+	}
+	
 	public void setPuntuacion(double puntuacion){
 		this.puntuacion=puntuacion;
 	}
