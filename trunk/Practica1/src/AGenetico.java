@@ -33,6 +33,7 @@ public class AGenetico {
 		int longitud=calculaLongCromosomaF1();
 		for (int i=0; i<tamPob; i++){
 			pob[i]=new CromosomaF1(longitud);
+			pob[i].evalua();
 		}
 	}
 	
@@ -40,5 +41,7 @@ public class AGenetico {
 		CromosomaF1 aux=new CromosomaF1();
 		return aux.calculaLongCromosoma(tolerancia);
 	}
+	
+
 
 }
