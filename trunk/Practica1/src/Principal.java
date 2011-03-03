@@ -8,9 +8,13 @@ public class Principal {
 		
 		AGenetico AG=new AGenetico();
 		AG.inicializa();
+		for (int i=0; i<100; i++){
 		AG.evaluarPoblacion();
 		AG.seleccionRuleta();
+		AG.reproduccion();}
 
+		int j=5;
+		j++;
 	}
 
 }

@@ -30,6 +30,16 @@ public abstract class Cromosoma {
 		return aptitud;
 	}
 	
+	public boolean getGen(int i){
+		return genes[i];
+	}
+	
+	public void setGenes(boolean[] genes){
+		for (int i=0; i<this.genes.length; i++){
+			this.genes[i]=genes[i];
+		}
+	}
+	
 	public void setPuntuacion(double puntuacion){
 		this.puntuacion=puntuacion;
 	}
@@ -45,6 +55,10 @@ public abstract class Cromosoma {
 
 	public void setPuntAcum(double puntAcum) {
 		this.puntAcum = puntAcum;
+	}
+	
+	public int getLongCromosoma(){
+		return genes.length;
 	}
 
 	/**

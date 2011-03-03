@@ -30,7 +30,7 @@ public class AGenetico {
 		this.numMaxGen=20;
 		this.probCruce=0.3;
 		this.probMutacion=0.05;
-		this.tolerancia=1;
+		this.tolerancia=0.1;
 		pob = new Cromosoma[tamPob];
 	}
 	
@@ -108,6 +108,57 @@ public class AGenetico {
         //la población seleccionada pasa a ser la nueva
         pob=nuevaPob;
 
+	}
+	
+	// Reproducción //////////////////////////////////////////////////
+	
+	public void reproduccion(){
+		int[] elegidos= new int[tamPob];
+		int numCruce=0;
+		int puntCruce;
+		double probabilidad;
+		Random aleatorio = new Random();
+		
+		// vemos cuantos elementos se van a reproducir
+		for (int i=0; i<tamPob; i++){
+			probabilidad=aleatorio.nextDouble();
+			if (probabilidad<probCruce){
+				elegidos[numCruce]=i;
+				numCruce++;
+			}
+		}
+		
+		if ((numCruce % 2) == 1)
+			numCruce--;
+		
+		//determinamos el punto de cruce
+		puntCruce=aleatorio.nextInt(pob[0].getLongCromosoma());
+		for (int i=0; i<numCruce; i=i+2)
+			cruce(pob[elegidos[i]],pob[elegidos[i+1]],puntCruce);
+		
+	}
+	
+	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce){
+		
+		boolean[] hijo=new boolean[padre.getLongCromosoma()];
+		boolean[] hija=new boolean[madre.getLongCromosoma()];
+		
+		for (int i=0; i<padre.getLongCromosoma(); i++){
+			if (i<puntCruce){
+				hijo[i]=padre.getGen(i);
+				hija[i]=madre.getGen(i);
+			}
+			else{
+				hijo[i]=madre.getGen(i);
+				hija[i]=padre.getGen(i);
+			}
+				
+		}
+		
+		padre.setGenes(hijo);
+		madre.setGenes(hija);
+		padre.evalua();
+		madre.evalua();
 	}
 	
 
