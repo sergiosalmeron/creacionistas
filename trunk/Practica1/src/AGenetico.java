@@ -9,6 +9,7 @@ public class AGenetico {
 	private double probCruce;
 	private double probMutacion;
 	private double tolerancia;
+	private int generacionActual=0;
 	
 	public AGenetico(int tamPob, int numMaxGen, double probCruce, double probMutacion, double tolerancia){
 		this.tamPob=tamPob;
@@ -35,11 +36,37 @@ public class AGenetico {
 			pob[i]=new CromosomaF1(longitud);
 			pob[i].evalua();
 		}
+		
 	}
 	
 	private int calculaLongCromosomaF1(){
 		CromosomaF1 aux=new CromosomaF1();
 		return aux.calculaLongCromosoma(tolerancia);
+	}
+	
+	public void evaluarPoblacion(){
+		double puntAcum=0;
+		double aptitudMejor=0;
+		double sumaAptitud=0;
+		
+		for (int i=0; i<pob.length; i++){
+			sumaAptitud=sumaAptitud+pob[i].getAptitud();
+			if (pob[i].getAptitud()>aptitudMejor){
+				this.posMejor=i;
+				aptitudMejor=pob[i].getAptitud();
+			}	
+		}
+		
+		for (int i=0; i<pob.length; i++){
+			pob[i].setPuntuacion(pob[i].getAptitud()/sumaAptitud);
+			puntAcum=puntAcum+pob[i].getPuntuacion();
+			pob[i].setPuntAcum(puntAcum);
+		}
+		
+		if ((elMejor==null) || (aptitudMejor>elMejor.getAptitud())) {
+            elMejor = (Cromosoma)pob[posMejor].clone();
+    }
+
 	}
 	
 

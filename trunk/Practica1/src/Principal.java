@@ -8,6 +8,7 @@ public class Principal {
 		
 		AGenetico AG=new AGenetico();
 		AG.inicializa();
+		AG.evaluarPoblacion();
 		
 		
 

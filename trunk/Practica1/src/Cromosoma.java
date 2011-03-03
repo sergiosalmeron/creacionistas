@@ -26,6 +26,27 @@ public abstract class Cromosoma {
         return decimal;
 	}
 	
+	public double getAptitud(){
+		return aptitud;
+	}
+	
+	public void setPuntuacion(double puntuacion){
+		this.puntuacion=puntuacion;
+	}
+	
+	public double getPuntuacion(){
+		return puntuacion;
+	}
+	
+	
+	public double getPuntAcum() {
+		return puntAcum;
+	}
+
+	public void setPuntAcum(double puntAcum) {
+		this.puntAcum = puntAcum;
+	}
+
 	/**
 	 * Función que devuelve el valor del fenotipo
 	 * @return double fenotipo
@@ -37,4 +58,8 @@ public abstract class Cromosoma {
 	 * @return double aptitud
 	 */
 	public abstract double evalua();
+	
+
+    public abstract Object clone();
+
 }

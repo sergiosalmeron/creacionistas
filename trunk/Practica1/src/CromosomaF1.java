@@ -38,6 +38,23 @@ public class CromosomaF1 extends Cromosoma{
 		aptitud= 20 + Math.E - 20*Math.pow(Math.E, -0.2*Math.abs(x)) - Math.pow(Math.E, Math.cos(2*Math.PI*x));
 		return aptitud;
 	}
+
+	@Override
+	public Object clone() {
+		CromosomaF1 clon = new CromosomaF1();
+		clon.aptitud=aptitud;
+		clon.fenotipo=fenotipo;
+		clon.longitudCromosoma=longitudCromosoma;
+		clon.setPuntAcum(this.getPuntAcum());
+		clon.setPuntuacion(this.getPuntuacion());
+		
+		clon.genes = new boolean[longitudCromosoma];
+		for (int i=0; i<longitudCromosoma; i++){
+			clon.genes[i]= genes[i];
+		}
+		
+		return clon;
+	}
 	
 
 	
