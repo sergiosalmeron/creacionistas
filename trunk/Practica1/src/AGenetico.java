@@ -6,7 +6,7 @@ public class AGenetico {
 	private Cromosoma[] pob;
 	private int tamPob;
 	private int numMaxGen;
-	private Cromosoma elMejor;
+	public Cromosoma elMejor; //TODO nunchakus 
 	private int posMejor;
 	private double probCruce;
 	private double probMutacion;
@@ -28,8 +28,8 @@ public class AGenetico {
 	public AGenetico(){
 		this.tamPob=100;
 		this.numMaxGen=100;
-		this.probCruce=0.25;
-		this.probMutacion=0.05;
+		this.probCruce=0.5;
+		this.probMutacion=0.005;
 		this.tolerancia=0.0001;
 		pob = new Cromosoma[tamPob];
 	}
@@ -38,18 +38,18 @@ public class AGenetico {
 	// Inicialización //////////////////////////////////////////////////
 	
 	public void inicializa(){
-		int longitud=calculaLongCromosomaF1();
+		//int longitud=calculaLongCromosomaF1();
 		for (int i=0; i<tamPob; i++){
-			pob[i]=new CromosomaF1(longitud);
+			pob[i]=new CromosomaF2(tolerancia);
 			pob[i].evalua();
 		}
 		
 	}
-	
+	/*
 	private int calculaLongCromosomaF1(){
 		CromosomaF1 aux=new CromosomaF1();
 		return aux.calculaLongCromosoma(tolerancia);
-	}
+	}*/
 	
 	
 	// Evaluación población//////////////////////////////////////////////
