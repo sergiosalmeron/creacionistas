@@ -77,6 +77,8 @@ public abstract class Cromosoma {
 	 */
 	public abstract double evalua();
 	
+	public abstract int calculaLongCromosoma(double tolerancia);
+	
 
     public abstract Object clone();
 

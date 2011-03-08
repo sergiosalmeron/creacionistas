@@ -20,6 +20,7 @@ public class CromosomaF1 extends Cromosoma{
 	public CromosomaF1() {
 	}
 
+	@Override
 	public int calculaLongCromosoma(double tolerancia){
 		double valor=1+(xMax-xMin)/tolerancia;
 		valor=Math.log10(valor)/Math.log10(2);
