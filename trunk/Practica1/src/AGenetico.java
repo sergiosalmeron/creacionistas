@@ -12,17 +12,23 @@ public class AGenetico {
 	private double probMutacion;
 	private double tolerancia;
 	private int generacionActual=0;
+	private double mediaPoblacion=0;
+	private int elite=0;
 	
 	
 	//Constructoras //////////////////////////////////////////////////////
-	
-	public AGenetico(int tamPob, int numMaxGen, double probCruce, double probMutacion, double tolerancia){
+
+
+
+	public AGenetico(int tamPob, int numMaxGen, double probCruce, double probMutacion, double tolerancia, int elite){
 		this.tamPob=tamPob;
 		this.numMaxGen=numMaxGen;
 		this.probCruce=probCruce;
 		this.probMutacion=probMutacion;
 		this.tolerancia=tolerancia;
 		pob = new Cromosoma[tamPob];
+		if ((elite>=0)&&(elite<tamPob))
+			this.elite=elite;
 	}
 	
 	public AGenetico(){
@@ -61,11 +67,13 @@ public class AGenetico {
 		
 		for (int i=0; i<pob.length; i++){
 			sumaAptitud=sumaAptitud+pob[i].getAptitud();
+			mediaPoblacion=mediaPoblacion+pob[i].getAptitud();
 			if (pob[i].getAptitud()>aptitudMejor){
 				this.posMejor=i;
 				aptitudMejor=pob[i].getAptitud();
 			}	
 		}
+		mediaPoblacion=mediaPoblacion/pob.length;
 		
 		for (int i=0; i<pob.length; i++){
 			pob[i].setPuntuacion(pob[i].getAptitud()/sumaAptitud);
@@ -77,6 +85,10 @@ public class AGenetico {
             elMejor = (Cromosoma)pob[posMejor].clone();
     }
 
+	}
+	
+	public double getMediaPoblacion(){
+		return mediaPoblacion;
 	}
 	
 	// Selección /////////////////////////////////////////////////////
@@ -108,6 +120,38 @@ public class AGenetico {
         //la población seleccionada pasa a ser la nueva
         pob=nuevaPob;
 
+	}
+	
+	public void seleccionTorneoDet(int k){
+		Cromosoma[] nuevaPob = new Cromosoma[tamPob];
+		Random aleatorio = new Random();
+		Cromosoma seleccionado = null;
+		
+		for (int i=0; i<tamPob; i++) {
+            for (int j=0; j<k; j++){
+            	if (j==0)
+            		seleccionado = pob[aleatorio.nextInt(tamPob)];
+            	else{
+            		Cromosoma aux = pob[aleatorio.nextInt(tamPob)];
+            		if (aux.getAptitud()>seleccionado.getAptitud())
+            			seleccionado = aux;
+            	}
+            }
+            nuevaPob[i]= (Cromosoma)seleccionado.clone();
+		}
+		pob=nuevaPob;
+	}
+	
+	private Cromosoma[] getElementosElite(){
+		Cromosoma[] resultado= new Cromosoma[elite];
+		/*for (int i=0; i<elite;i++){
+			resultado[i]=pob[i];
+		}
+		
+		for (int i=elite; i<tamPob;i++){
+			
+		}*/
+		return resultado;
 	}
 	
 	// Reproducción //////////////////////////////////////////////////
