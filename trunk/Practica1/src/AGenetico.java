@@ -20,7 +20,7 @@ public class AGenetico {
 
 
 
-	public AGenetico(int tamPob, int numMaxGen, double probCruce, double probMutacion, double tolerancia, int elite){
+	public AGenetico (int tamPob, int numMaxGen, double probCruce, double probMutacion, double tolerancia, int elite){
 		this.tamPob=tamPob;
 		this.numMaxGen=numMaxGen;
 		this.probCruce=probCruce;
@@ -46,7 +46,7 @@ public class AGenetico {
 	public void inicializa(){
 		//int longitud=calculaLongCromosomaF1();
 		for (int i=0; i<tamPob; i++){
-			pob[i]=new CromosomaF2(tolerancia);
+			pob[i]=new CromosomaF3(tolerancia);
 			pob[i].evalua();
 		}
 		
@@ -60,7 +60,14 @@ public class AGenetico {
 	
 	// Evaluación población//////////////////////////////////////////////
 	
-	public void evaluarPoblacion(){
+	public void evaluarPoblacion(boolean maximizar){
+		if (maximizar)
+			evaluarPoblacionMaximizar();
+		else
+			evaluarPoblacionMinimizar();
+	}
+	
+	private void evaluarPoblacionMaximizar(){
 		double puntAcum=0;
 		double aptitudMejor=0;
 		double sumaAptitud=0;
@@ -73,6 +80,8 @@ public class AGenetico {
 				aptitudMejor=pob[i].getAptitud();
 			}	
 		}
+		
+		
 		mediaPoblacion=mediaPoblacion/pob.length;
 		
 		for (int i=0; i<pob.length; i++){
@@ -83,8 +92,45 @@ public class AGenetico {
 		
 		if ((elMejor==null) || (aptitudMejor>elMejor.getAptitud())) {
             elMejor = (Cromosoma)pob[posMejor].clone();
-    }
-
+		}	
+	}
+	//*/
+	private void evaluarPoblacionMinimizar(){
+		double puntAcum=0;
+		double aptitudMejor=0;
+		double sumaAptitud=0;
+		double aptitudMasAlta=0;//*/
+		
+		for (int i=0; i<pob.length; i++){
+			//sumaAptitud=sumaAptitud+pob[i].getAptitud();
+			//mediaPoblacion=mediaPoblacion+pob[i].getAptitud();
+			if (pob[i].getAptitud()>aptitudMasAlta){
+				//this.posMejor=i;
+				aptitudMasAlta=pob[i].getAptitud();
+			}	
+		}
+		
+		for (int i=0; i<pob.length; i++){
+			sumaAptitud=sumaAptitud+aptitudMasAlta-pob[i].getAptitud();
+			mediaPoblacion=mediaPoblacion+aptitudMasAlta-pob[i].getAptitud();
+			if (aptitudMasAlta-pob[i].getAptitud()>aptitudMejor){
+				this.posMejor=i;
+				aptitudMejor=aptitudMasAlta-pob[i].getAptitud();
+			}	
+		}
+		
+		
+		mediaPoblacion=mediaPoblacion/pob.length;
+		
+		for (int i=0; i<pob.length; i++){
+			pob[i].setPuntuacion((aptitudMasAlta-pob[i].getAptitud())/sumaAptitud);
+			puntAcum=puntAcum+pob[i].getPuntuacion();
+			pob[i].setPuntAcum(puntAcum);
+		}
+		
+		if ((elMejor==null) || (aptitudMejor>aptitudMasAlta-elMejor.getAptitud())) {
+            elMejor = (Cromosoma)pob[posMejor].clone();
+		}	
 	}
 	
 	public double getMediaPoblacion(){
