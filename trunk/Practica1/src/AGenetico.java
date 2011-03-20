@@ -32,7 +32,7 @@ public class AGenetico {
 	}
 	
 	public AGenetico(){
-		this.tamPob=100;
+		this.tamPob=1000;
 		this.numMaxGen=100;
 		this.probCruce=0.5;
 		this.probMutacion=0.005;
@@ -46,7 +46,7 @@ public class AGenetico {
 	public void inicializa(){
 		//int longitud=calculaLongCromosomaF1();
 		for (int i=0; i<tamPob; i++){
-			pob[i]=new CromosomaF3(tolerancia);
+			pob[i]=new CromosomaF4(1,tolerancia);
 			pob[i].evalua();
 		}
 		
