@@ -1,14 +1,15 @@
 
-public class CromosomaF4 extends Cromosoma{
+public class CromosomaF5 extends Cromosoma{
 	
-	private int xMin=0;
-	private int xMax=100;
+	private int xMin=-10;
+	private int xMax=10;
 	private int longitudCromosoma;
 	private int longGen;
-	private int n=1;
+	private int n=2;
 	
-	public CromosomaF4(int nn, double tolerancia){
-		this.n=nn;
+	public CromosomaF5(double tolerancia){
+		/*if ((nn>0)&&(nn<3))
+			this.n=nn;*/
 		longitudCromosoma=this.calculaLongCromosoma(tolerancia);
 		genes = new boolean[longitudCromosoma];
 		for (int i=0; i<longitudCromosoma; i++){
@@ -16,7 +17,7 @@ public class CromosomaF4 extends Cromosoma{
 		}
 	}
 	
-	public CromosomaF4(){
+	public CromosomaF5(){
 	}
 	
 	@Override
@@ -24,11 +25,11 @@ public class CromosomaF4 extends Cromosoma{
 		double valor=1+(xMax-xMin)/tolerancia;
 		valor=Math.log10(valor)/Math.log10(2);
 		longGen=(int)java.lang.Math.ceil(valor);
-		return longGen*n;
+		return (int)(java.lang.Math.ceil(longGen)*n);
 	}
 	@Override
 	public Object clone() {
-		CromosomaF4 clon = new CromosomaF4();
+		CromosomaF5 clon = new CromosomaF5();
 		clon.n=this.n;
 		clon.aptitud=aptitud;
 		clon.fenotipo=new double[n];
@@ -50,12 +51,13 @@ public class CromosomaF4 extends Cromosoma{
 	public double evalua() {
 		double[] fen=valorFenotipo();
 		aptitud=0;
-		double incremento;
-		for (int i=0;i<n;i++){
-			double x=fen[i];
-			incremento=-( x*Math.sin(Math.sqrt(Math.abs(x))) );;
-			aptitud=aptitud+incremento;
+		double valor1=0;
+		double valor2=0;
+		for (int i=1;i<6;i++){
+			valor1=valor1 + ( i*Math.cos( ((i+1)*fen[0]) + i ) );
+			valor2=valor2 + ( i*Math.cos( ((i+1)*fen[1]) + i ) );
 		}
+		aptitud=valor1*valor2;
 		return aptitud;
 	}
 	@Override

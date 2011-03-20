@@ -46,7 +46,7 @@ public class AGenetico {
 	public void inicializa(){
 		//int longitud=calculaLongCromosomaF1();
 		for (int i=0; i<tamPob; i++){
-			pob[i]=new CromosomaF4(1,tolerancia);
+			pob[i]=new CromosomaF5(tolerancia);
 			pob[i].evalua();
 		}
 		
