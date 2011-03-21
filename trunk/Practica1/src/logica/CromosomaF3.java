@@ -1,15 +1,14 @@
-import java.util.Random;
+package logica;
 
+public class CromosomaF3  extends Cromosoma{
 
-public class CromosomaF1 extends Cromosoma{
-
-	private int xMin=0;
-	private int xMax=32;
+	private int xMin=-250;
+	private int xMax=250;
 	
 	private int longitudCromosoma;
 
 	
-	public CromosomaF1(double tolerancia){
+	public CromosomaF3(double tolerancia){
 		longitudCromosoma=this.calculaLongCromosoma(tolerancia);
 		genes = new boolean[longitudCromosoma];
 		for (int i=0; i<longitudCromosoma; i++){
@@ -17,7 +16,7 @@ public class CromosomaF1 extends Cromosoma{
 		}
 	}
 	
-	public CromosomaF1() {
+	public CromosomaF3() {
 	}
 
 	@Override
@@ -37,13 +36,14 @@ public class CromosomaF1 extends Cromosoma{
 	@Override
 	public double evalua() {
 		double x=valorFenotipo()[0];
-		aptitud= 20 + Math.E - 20*Math.pow(Math.E, -0.2*Math.abs(x)) - Math.pow(Math.E, Math.cos(2*Math.PI*x));
+		aptitud= -( Math.abs(x* Math.sin(Math.sqrt(Math.abs(x))) ) );
+		//aptitud= 20 + Math.E - 20*Math.pow(Math.E, -0.2*Math.abs(x)) - Math.pow(Math.E, Math.cos(2*Math.PI*x));
 		return aptitud;
 	}
 
 	@Override
 	public Object clone() {
-		CromosomaF1 clon = new CromosomaF1();
+		CromosomaF3 clon = new CromosomaF3();
 		clon.aptitud=aptitud;
 		clon.fenotipo=fenotipo;
 		clon.longitudCromosoma=longitudCromosoma;
@@ -57,8 +57,5 @@ public class CromosomaF1 extends Cromosoma{
 		
 		return clon;
 	}
-	
 
-	
-	
 }

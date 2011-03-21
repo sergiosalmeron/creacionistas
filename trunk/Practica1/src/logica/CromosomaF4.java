@@ -1,3 +1,4 @@
+package logica;
 
 public class CromosomaF4 extends Cromosoma{
 	

@@ -1,3 +1,4 @@
+package logica;
 import java.util.Random;
 
 
@@ -13,30 +14,22 @@ public class AGenetico {
 	private double tolerancia;
 	private int generacionActual=0;
 	private double mediaPoblacion=0;
-	private int elite=0;
+	private double elite=0;
+	private Funcion funcion;
+	private Seleccion seleccion;
+	private int f4Aux;
 	
-	
-	//Constructoras //////////////////////////////////////////////////////
+	//Constructora //////////////////////////////////////////////////////
 
-
-
-	public AGenetico (int tamPob, int numMaxGen, double probCruce, double probMutacion, double tolerancia, int elite){
-		this.tamPob=tamPob;
-		this.numMaxGen=numMaxGen;
-		this.probCruce=probCruce;
-		this.probMutacion=probMutacion;
-		this.tolerancia=tolerancia;
-		pob = new Cromosoma[tamPob];
-		if ((elite>=0)&&(elite<tamPob))
-			this.elite=elite;
-	}
 	
 	public AGenetico(){
 		this.tamPob=100;
 		this.numMaxGen=100;
-		this.probCruce=0.5;
+		this.probCruce=0.4;
 		this.probMutacion=0.005;
 		this.tolerancia=0.0001;
+		this.elite=0;
+		this.f4Aux=1;
 		pob = new Cromosoma[tamPob];
 	}
 	
@@ -71,6 +64,7 @@ public class AGenetico {
 		double puntAcum=0;
 		double aptitudMejor=0;
 		double sumaAptitud=0;
+		mediaPoblacion=0;
 		
 		for (int i=0; i<pob.length; i++){
 			sumaAptitud=sumaAptitud+pob[i].getAptitud();
@@ -100,6 +94,7 @@ public class AGenetico {
 		double aptitudMejor=0;
 		double sumaAptitud=0;
 		double aptitudMasAlta=0;//*/
+		mediaPoblacion=0;
 		
 		for (int i=0; i<pob.length; i++){
 			//sumaAptitud=sumaAptitud+pob[i].getAptitud();
@@ -193,7 +188,7 @@ public class AGenetico {
 	}
 	
 	private Cromosoma[] getElementosElite(){
-		Cromosoma[] resultado= new Cromosoma[elite];
+		//Cromosoma[] resultado= new Cromosoma[elite];
 		/*for (int i=0; i<elite;i++){
 			resultado[i]=pob[i];
 		}
@@ -201,7 +196,7 @@ public class AGenetico {
 		for (int i=elite; i<tamPob;i++){
 			
 		}*/
-		return resultado;
+		return null;
 	}
 	
 	// Reproducción //////////////////////////////////////////////////
@@ -274,6 +269,79 @@ public class AGenetico {
 			pob[i].evalua();
 		}
 	}
+	
+	// Getters y Setters
+	public int getTamPob() {
+		return tamPob;
+	}
 
+	public void setTamPob(int tamPob) {
+		this.tamPob = tamPob;
+		pob = new Cromosoma[tamPob];
+	}
+
+	public int getNumMaxGen() {
+		return numMaxGen;
+	}
+
+	public void setNumMaxGen(int numMaxGen) {
+		this.numMaxGen = numMaxGen;
+	}
+
+	public double getProbCruce() {
+		return probCruce;
+	}
+
+	public void setProbCruce(double probCruce) {
+		this.probCruce = probCruce;
+	}
+
+	public double getProbMutacion() {
+		return probMutacion;
+	}
+
+	public void setProbMutacion(double probMutacion) {
+		this.probMutacion = probMutacion;
+	}
+
+	public double getTolerancia() {
+		return tolerancia;
+	}
+
+	public void setTolerancia(double tolerancia) {
+		this.tolerancia = tolerancia;
+	}
+
+	public double getElite() {
+		return elite;
+	}
+
+	public void setElite(double elite) {
+		this.elite = elite;
+	}
+	
+	public void setFuncion(Funcion funcion) {
+		this.funcion = funcion;
+	}
+	
+	public Funcion getFuncion(){
+		return funcion;
+	}
+
+	public void setSeleccion(Seleccion seleccion) {
+		this.seleccion = seleccion;
+	}
+	
+	public Seleccion getSeleccion(){
+		return seleccion;
+	}
+	
+	public void setF4Aux(int f4Aux){
+		this.f4Aux=f4Aux;
+	}
+	
+	public int getF4Aux(){
+		return f4Aux;
+	}
 
 }

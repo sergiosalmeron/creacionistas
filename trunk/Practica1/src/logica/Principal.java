@@ -1,3 +1,4 @@
+package logica;
 
 import javax.swing.JFrame;
 
@@ -18,11 +19,11 @@ public class Principal {
 		DatosGrafica datos=new DatosGrafica(100, true);
 		for (int i=0; i<100; i++){
 			AG.evaluarPoblacion(true);
+			datos.addDato(AG.getMejorLocal(), AG.getMediaPoblacion());
 			AG.seleccionRuleta();
 			//AG.seleccionTorneoDet(3);
 			AG.reproduccion();
 			AG.mutacion();
-			datos.addDato(AG.getMejorLocal(), AG.getMediaPoblacion());
 			System.out.println(AG.elMejor.aptitud+" "+AG.getMediaPoblacion());
 		}
 		System.out.println(AG.elMejor.aptitud);
