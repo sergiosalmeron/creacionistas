@@ -3,6 +3,7 @@ package gui;
 import gui.ConfigPanel.ChoiceOption;
 import gui.ConfigPanel.ConfigListener;
 import gui.ConfigPanel.DoubleOption;
+import gui.ConfigPanel.InnerOption;
 import gui.ConfigPanel.IntegerOption;
 import gui.Demo.Figura;
 
@@ -28,10 +29,11 @@ import logica.Seleccion;
 public class Ventana extends JFrame{
 	private AGenetico aG;
 	private DatosGrafica datos;
+	private boolean datosOK;
 	
 	public Ventana(){
 
-		super("Práctica 1");
+		super("Práctica 1: Grupo G07");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JPanel panelCentral = new JPanel(new GridLayout(4,1));
@@ -56,7 +58,15 @@ public class Ventana extends JFrame{
 		cp.addConfigListener(new ConfigListener() {
 			@Override
 			public void configChanged(boolean isConfigValid) {
-				valido.setText(isConfigValid ? textoTodoValido: textoHayErrores);				
+				if (isConfigValid){
+					valido.setText(textoTodoValido);
+					datosOK=true;
+				}
+				else{
+					valido.setText(textoHayErrores);
+					datosOK=false;
+				}
+				//valido.setText(isConfigValid ? textoTodoValido: textoHayErrores);				
 			}
 		});
 		add(valido, BorderLayout.SOUTH);
@@ -72,16 +82,18 @@ public class Ventana extends JFrame{
 		boton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				datos=new DatosGrafica(aG.getNumMaxGen(), true);
+				if (datosOK){
+				datos=new DatosGrafica(aG.getNumMaxGen());
 				aG.inicializa();
 				for (int i=0; i<aG.getNumMaxGen(); i++){
-					aG.evaluarPoblacion(true);
-					datos.addDato(aG.getMejorLocal(), aG.getMediaPoblacion());
-					aG.seleccionRuleta();
+					aG.evaluarPoblacion();
+					datos.addDato(aG.getElMejor(), aG.getMejorLocal(), aG.getMediaPoblacion());
+					aG.seleccion();
 					aG.reproduccion();
 					aG.mutacion();
 				}
 				grafica();
+				}
 			}
 		});
 		panelCentral.add(boton);
@@ -200,41 +212,37 @@ public class Ventana extends JFrame{
 			    "Función",							 
 			    "Función que queremos probar", 					 
 			    "funcion",   							 
-			    Funcion.values()))
-			    .addOption(new ChoiceOption<AGenetico>(	 
+			    Funcion.values()));
+		config.beginInner(new InnerOption<AGenetico, AGenetico>( 
+			  	"opciones para Funcion 4", "opciones de la funcion 4", 
+			  	"funcion", Funcion.class) {
+					public AGenetico inner(AGenetico target) {
+						return (target.getFuncion() == Funcion.F4) ? target : null;
+					}
+				 })
+		  		  .addInner(new IntegerOption<AGenetico>(
+		  		     "Variable n", "numero de variables", "f4Aux", 1, Integer.MAX_VALUE))
+		  		  .endInner();
+	
+		
+		config.addOption(new ChoiceOption<AGenetico>(	 
 			    "Selección",							 
 			    "Tipo de selección de nuestro algoritmo", 					 
 			    "seleccion",   							 
-			    Seleccion.values()))
+			    Seleccion.values()));
+		config.beginInner(new InnerOption<AGenetico, AGenetico>( 
+			  	"Opciones para torneo", "opciones de torneo", 
+			  	"seleccion", Seleccion.class) {
+					public AGenetico inner(AGenetico target) {
+						return (target.getSeleccion() == Seleccion.Torneo) ? target : null;
+					}
+				 })
+		  		  .addInner(new IntegerOption<AGenetico>(
+		  		     "Participantes torneo", "Número de participantes", "torneoAux", 1, 5))
+		  		  .endInner()
+			    
 				
-		/*	  // para cada clase de objeto interno, hay que definir sus opciones entre un beginInner y un endInner 
-			  .beginInner(new InnerOption<Figura,Forma>(  
-			  	"circulo",							 // titulo del sub-panel
-			  	"opciones del circulo",				 // tooltip asociado
-			  	"forma",							 // campo
-			  	Circulo.class))						 // tipo que debe de tener ese campo para que se active el sub-panel
-		  		  .addInner(new DoubleOption<Forma>(
-		  		     "radio", "radio del circulo", "radio", 0, Integer.MAX_VALUE))
-		  		  .endInner()						 // cierra este sub-panel
-		  	  // igual, pero opciones para el caso 'forma de tipo rectangulo'  
-              .beginInner(new InnerOption<Figura,Forma>( 
-			  	"rectangulo", "opciones del rectangulo", "forma", Rectangulo.class))
-		  		  .addInner(new DoubleOption<Forma>(
-		  		     "ancho", "ancho del rectangulo", "ancho", 0, Double.POSITIVE_INFINITY))
-		  		  .addInner(new DoubleOption<Forma>(
-		  		     "alto", "alto del rectangulo", "alto", 0, Double.POSITIVE_INFINITY))
-		  		  .endInner()
-
-			  // y por ultimo, el punto (siempre estara visible)
-			  .beginInner(new InnerOption<Figura,Punto>(
-			  	"coordenadas", "coordenadas de la figura", "coordenadas", Punto.class))
-		  		  .addInner(new DoubleOption<Forma>(
-		  		     "x", "coordenada x", "x", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
-		  		  .addInner(new DoubleOption<Forma>(
-		  		     "y", "coordenada y", "y", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
-		  		  .endInner()
-		  		  
-			  // y ahora ya cerramos el formulario*/
+		
 		  	  .endOptions();
 		
 		return config;

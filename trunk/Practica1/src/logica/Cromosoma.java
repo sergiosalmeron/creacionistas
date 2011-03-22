@@ -9,11 +9,13 @@ public abstract class Cromosoma{
 	protected double aptitud;
 	private double puntuacion;
 	private double puntAcum;
+	private Random r;
 	
-	
+	public Cromosoma() {
+		this.r = new Random();
+	}
 	
 	protected boolean iniciaGen(){
-		Random r= new Random();
 		return r.nextBoolean();
 	}
 	

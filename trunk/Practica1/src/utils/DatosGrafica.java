@@ -8,24 +8,25 @@ public class DatosGrafica {
 	private double[] media;
 	private int numGeneraciones;
 	private int i;
-	private boolean maximizar;
+	//private boolean maximizar;
 	
-	public DatosGrafica(int nGeneraciones, boolean maximiza){
+	public DatosGrafica(int nGeneraciones){
 		this.numGeneraciones=nGeneraciones;
 		generaciones=new double[nGeneraciones];
 		mejorAbsoluto=new double[nGeneraciones];
 		mejorLocal=new double[nGeneraciones];
 		media=new double[nGeneraciones];
 		i=0;
-		this.maximizar=maximiza;
+		//this.maximizar=maximiza;
 	}
 	
-	public void addDato(double mejorGeneracion, double mediaGeneracion){
+	public void addDato(double mejorAbsoluto, double mejorGeneracion, double mediaGeneracion){
 		if (i<numGeneraciones){
 			mejorLocal[i]=mejorGeneracion;
 			media[i]=mediaGeneracion;
 			generaciones[i]=i;
-			addMejorAbs(mejorGeneracion);
+			//addMejorAbs(mejorGeneracion);
+			this.mejorAbsoluto[i]=mejorAbsoluto;
 			i++;
 		}
 	}
@@ -45,7 +46,7 @@ public class DatosGrafica {
 	public double[] getMedia() {
 		return media;
 	}
-
+/*
 	private void addMejorAbs(double mejorGeneracion){
 		if (i>0){
 			boolean mejorMaximizando=maximizar && (mejorAbsoluto[i-1]<mejorGeneracion);
@@ -58,7 +59,7 @@ public class DatosGrafica {
 		}
 		else
 			mejorAbsoluto[i]=mejorGeneracion;
-	}
+	}*/
 
 
 }
