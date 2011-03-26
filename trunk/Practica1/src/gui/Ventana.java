@@ -85,12 +85,17 @@ public class Ventana extends JFrame{
 				if (datosOK){
 				datos=new DatosGrafica(aG.getNumMaxGen());
 				aG.inicializa();
+				//aG.setElite(1);
 				for (int i=0; i<aG.getNumMaxGen(); i++){
 					aG.evaluarPoblacion();
 					datos.addDato(aG.getElMejor(), aG.getMejorLocal(), aG.getMediaPoblacion());
+					if (aG.usaElite())
+						aG.apartaElementosElite();
 					aG.seleccion();
 					aG.reproduccion();
 					aG.mutacion();
+					if (aG.usaElite())
+						aG.reinsertaElementosElite();
 				}
 				grafica();
 				}

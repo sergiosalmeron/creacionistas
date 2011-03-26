@@ -1,6 +1,9 @@
 package logica;
 
+import java.util.Arrays;
 import java.util.Random;
+
+import utils.ComparadorCromos;
 
 public class AGenetico {
 
@@ -14,13 +17,18 @@ public class AGenetico {
 	private double tolerancia;
 	private int generacionActual = 0;
 	private double mediaPoblacion = 0;
-	private double elite = 0;
+	
 	private Funcion funcion;
 	private Seleccion seleccion;
 	private boolean maximizar;
 	private int f4Aux;
 	private int torneoAux;
-
+	//elite
+	private int tamElite = 0;
+	private Cromosoma[] elite;
+	private ComparadorCromos comp;
+	
+	
 	// Constructora //////////////////////////////////////////////////////
 
 	public AGenetico() {
@@ -29,10 +37,11 @@ public class AGenetico {
 		this.probCruce = 0.4;
 		this.probMutacion = 0.005;
 		this.tolerancia = 0.0001;
-		this.elite = 0;
+		this.tamElite = 0;
 		this.f4Aux = 1;
 		torneoAux=3;
 		pob = new Cromosoma[tamPob];
+		comp=new ComparadorCromos();
 	}
 
 	// Inicialización //////////////////////////////////////////////////
@@ -230,15 +239,70 @@ public class AGenetico {
 		pob = nuevaPob;
 	}
 
-	private Cromosoma[] getElementosElite() {
-		// Cromosoma[] resultado= new Cromosoma[elite];
-		/*
-		 * for (int i=0; i<elite;i++){ resultado[i]=pob[i]; }
+	public void apartaElementosElite() {
+		 //en el array "resultado", a menor indice del elemento, menor puntuación de este
+		 elite= new Cromosoma[tamElite];
+		 for (int i=0; i<tamElite;i++){ 
+			 elite[i]=(Cromosoma) pob[i].clone();
+		 }
+			
+		 Arrays.sort(elite, comp);
+
+		 for (int i=tamElite; i<tamPob;i++){
+			 seleccionaElite(pob[i]);
+		 }
+		 /*
+		 * for (int i=0; i<tamElite;i++){ resultado[i]=pob[i]; }
 		 * 
-		 * for (int i=elite; i<tamPob;i++){
+		 * for (int i=tamElite; i<tamPob;i++){
 		 *  }
 		 */
-		return null;
+		//return null;
+	}
+
+	
+	private void seleccionaElite(Cromosoma c){
+		if (elite==null)
+			return;
+		/*						
+		  						for (int i=0;i<tamElite; i++){
+									if (elite[i]!=null)
+									System.out.print(elite[i].getPuntuacion()+", ");
+								}
+								System.out.println();
+								System.out.println(c.getPuntuacion());
+		*/
+		if (elite[0]==null){
+			elite[0]=(Cromosoma) c.clone();
+			return;
+		}
+		if (c.getPuntuacion()>elite[0].getPuntuacion()){
+			int i=1;
+			boolean colocado=false;
+			Cromosoma aux=(Cromosoma) c.clone();
+			elite[0]=aux;
+			while ((i<elite.length)&&(elite[i]!=null)&&(!colocado)){
+				if (c.getPuntuacion()>elite[i].getPuntuacion()){
+					elite[i-1]=elite[i];
+					i++;
+				}
+				else{
+					elite[i-1]=aux;
+					colocado=true;
+				}	
+			}
+			if (i==elite.length)
+				elite[i-1]=aux;
+		}
+	}
+	
+	public void reinsertaElementosElite() {
+		for (int i=0;i<elite.length;i++){
+			if (elite[i]!=null){
+				pob[i]=elite[i];
+				elite[i]=null;
+			}
+		}
 	}
 
 	// Reproducción //////////////////////////////////////////////////
@@ -353,11 +417,11 @@ public class AGenetico {
 	}
 
 	public double getElite() {
-		return elite;
+		return tamElite;
 	}
 
-	public void setElite(double elite) {
-		this.elite = elite;
+	public void setElite(double tamElite) {
+		this.tamElite = (int) Math.round(tamElite*tamPob*0.01);
 	}
 
 	public void setFuncion(Funcion funcion) {
@@ -394,6 +458,10 @@ public class AGenetico {
 
 	public double getElMejor() {
 		return elMejor.aptitud;
+	}
+	
+	public boolean usaElite(){
+		return tamElite>0;
 	}
 
 
