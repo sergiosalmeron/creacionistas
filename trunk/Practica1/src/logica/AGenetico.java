@@ -421,7 +421,7 @@ public class AGenetico {
 	}
 
 	public void setElite(double tamElite) {
-		this.tamElite = (int) Math.round(tamElite*tamPob*0.01);
+		this.tamElite = (int) Math.round(tamElite*tamPob);
 	}
 
 	public void setFuncion(Funcion funcion) {
