@@ -317,6 +317,7 @@ public class Ventana extends JFrame{
 		//frame.setContentPane(splitPane);
 		//frame.setVisible(true);
 		graficas.addTab("Grafica de la función "+ aG.getFuncion().toString(), graf);
+		graficas.setSelectedIndex(graficas.getComponentCount()-1);
 		///aaa
 	}
 
