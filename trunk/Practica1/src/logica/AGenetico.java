@@ -463,6 +463,10 @@ public class AGenetico {
 	public boolean usaElite(){
 		return tamElite>0;
 	}
+	
+	public Cromosoma getCromosomaMejor(){
+		return elMejor;
+	}
 
 
 

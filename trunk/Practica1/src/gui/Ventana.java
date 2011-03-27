@@ -8,15 +8,21 @@ import gui.ConfigPanel.IntegerOption;
 import gui.Demo.Figura;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import org.math.plot.Plot2DPanel;
 
@@ -264,15 +270,36 @@ public class Ventana extends JFrame{
 	
 	private void grafica(){
 		Plot2DPanel plot = new Plot2DPanel();
+		
 		plot.addLegend("SOUTH");
 		plot.addLinePlot("Mejor absoluto", datos.getGeneraciones(), datos.getMejorAbsoluto());
 		plot.addLinePlot("Mejor de la generación", datos.getGeneraciones(), datos.getMejorLocal());
 		plot.addLinePlot("Media", datos.getGeneraciones(), datos.getMedia());
 		
-		JFrame frame = new JFrame("Grafica");
+		JTextArea area=new JTextArea();
+		textoEtiqueta(area);
+		area.setEditable(false);
+		area.setBackground(Color.LIGHT_GRAY);
+		JFrame frame = new JFrame("Grafica de la función "+ aG.getFuncion().toString());
 		frame.setSize(600, 600);
-		frame.setContentPane(plot);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                plot, area);
+		splitPane.setDividerLocation(475);
+		frame.setContentPane(splitPane);
 		frame.setVisible(true);
+	}
+
+	private void textoEtiqueta(JTextArea area) {
+		String aux=null;
+		aux="  Valor "+ aG.getElMejor() + " en:"+'\n';
+		area.append(aux);
+		int i=1;
+		
+		for (double fenotipo : aG.getCromosomaMejor().valorFenotipo())  {
+		      aux="    X"+i+"="+fenotipo+'\n';
+		      area.append(aux);
+		      i++;
+		}
 	}
 
 }
