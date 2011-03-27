@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -36,14 +37,18 @@ public class Ventana extends JFrame{
 	private AGenetico aG;
 	private DatosGrafica datos;
 	private boolean datosOK;
+	private JTabbedPane graficas;
 	
 	public Ventana(){
 
 		super("Práctica 1: Grupo G07");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
+		JPanel panelPrinc=new JPanel();///aaa
+	
+		panelPrinc.setLayout(new BorderLayout());
 		JPanel panelCentral = new JPanel(new GridLayout(4,1));
-		add(panelCentral, BorderLayout.CENTER);
+		panelPrinc.add(panelCentral, BorderLayout.CENTER);
 
 		// crea dos figuras
 		aG = new AGenetico();
@@ -54,7 +59,12 @@ public class Ventana extends JFrame{
 		cp.setTarget(aG);
 		// carga los valores de la figura en el panel
 		cp.initialize();		
-		add(cp, BorderLayout.WEST);
+		panelPrinc.add(cp, BorderLayout.WEST);
+		
+		add(panelPrinc, BorderLayout.WEST);
+		
+		graficas=new JTabbedPane();
+		add(graficas, BorderLayout.CENTER);
 		
 		// crea una etiqueta que dice si todo es valido
 		final String textoTodoValido = "Todos los campos OK";
@@ -280,13 +290,34 @@ public class Ventana extends JFrame{
 		textoEtiqueta(area);
 		area.setEditable(false);
 		area.setBackground(Color.LIGHT_GRAY);
-		JFrame frame = new JFrame("Grafica de la función "+ aG.getFuncion().toString());
-		frame.setSize(600, 600);
+		//area.setRows(3);
+		//JFrame frame = new JFrame("Grafica de la función "+ aG.getFuncion().toString());
+		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 plot, area);
 		splitPane.setDividerLocation(475);
-		frame.setContentPane(splitPane);
-		frame.setVisible(true);
+		splitPane.setResizeWeight(1);
+	//	splitPane.setSize(300, 300);
+		splitPane.setSize(600, 600);
+		//splitPane.repack();
+		JPanel graf=new JPanel();
+		graf.setLayout(new BorderLayout());
+		graf.add(splitPane, BorderLayout.CENTER);
+		JButton cerrar=new JButton("Cerrar gráfica");
+		cerrar.addActionListener(
+				new ActionListener() {
+		            public void actionPerformed(ActionEvent e) {
+		                int a=graficas.getSelectedIndex();
+		                if (a>=0)
+		                	graficas.remove(a);
+		            }
+		        }
+		);
+		graf.add(cerrar, BorderLayout.SOUTH);
+		//frame.setContentPane(splitPane);
+		//frame.setVisible(true);
+		graficas.addTab("Grafica de la función "+ aG.getFuncion().toString(), graf);
+		///aaa
 	}
 
 	private void textoEtiqueta(JTextArea area) {
