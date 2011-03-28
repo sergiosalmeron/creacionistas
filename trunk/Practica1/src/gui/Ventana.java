@@ -274,7 +274,7 @@ public class Ventana extends JFrame{
 	public static void main(String[] args) {
 		
 		Ventana v = new Ventana();
-		v.setSize(400, 350);
+		v.setSize(900, 650);
 		v.setVisible(true);	
 	}
 	
@@ -295,7 +295,7 @@ public class Ventana extends JFrame{
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 plot, area);
-		splitPane.setDividerLocation(475);
+		splitPane.setDividerLocation(450);
 		splitPane.setResizeWeight(1);
 	//	splitPane.setSize(300, 300);
 		splitPane.setSize(600, 600);
