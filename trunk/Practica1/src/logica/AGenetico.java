@@ -1,4 +1,5 @@
 package logica;
+
 /**
  * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
  * G07
@@ -18,20 +19,19 @@ public class AGenetico {
 	private double probCruce;
 	private double probMutacion;
 	private double tolerancia;
-	private int generacionActual = 0;
+	// private int generacionActual = 0;
 	private double mediaPoblacion = 0;
-	
+
 	private Funcion funcion;
 	private Seleccion seleccion;
 	private boolean maximizar;
 	private int f4Aux;
 	private int torneoAux;
-	//elite
+	// elite
 	private int tamElite = 0;
 	private Cromosoma[] elite;
 	private ComparadorCromos comp;
-	
-	
+
 	// Constructora //////////////////////////////////////////////////////
 
 	public AGenetico() {
@@ -42,9 +42,9 @@ public class AGenetico {
 		this.tolerancia = 0.0001;
 		this.tamElite = 0;
 		this.f4Aux = 1;
-		torneoAux=3;
+		torneoAux = 3;
 		pob = new Cromosoma[tamPob];
-		comp=new ComparadorCromos();
+		comp = new ComparadorCromos();
 	}
 
 	// Inicialización //////////////////////////////////////////////////
@@ -52,7 +52,6 @@ public class AGenetico {
 	public void inicializa() {
 		elMejor = null;
 		posMejor = -1;
-		// int longitud=calculaLongCromosomaF1();
 		for (int i = 0; i < tamPob; i++) {
 			switch (funcion) {
 			case F1:
@@ -80,11 +79,6 @@ public class AGenetico {
 		}
 
 	}
-
-	/*
-	 * private int calculaLongCromosomaF1(){ CromosomaF1 aux=new CromosomaF1();
-	 * return aux.calculaLongCromosoma(tolerancia); }
-	 */
 
 	// Evaluación población//////////////////////////////////////////////
 	public void evaluarPoblacion() {
@@ -122,19 +116,16 @@ public class AGenetico {
 		}
 	}
 
-	// */
+
 	private void evaluarPoblacionMinimizar() {
 		double puntAcum = 0;
 		double aptitudMejor = 0;
 		double sumaAptitud = 0;
-		double aptitudMasAlta = 0;// */
+		double aptitudMasAlta = 0;
 		mediaPoblacion = 0;
 
 		for (int i = 0; i < pob.length; i++) {
-			// sumaAptitud=sumaAptitud+pob[i].getAptitud();
-			// mediaPoblacion=mediaPoblacion+pob[i].getAptitud();
 			if (pob[i].getAptitud() > aptitudMasAlta) {
-				// this.posMejor=i;
 				aptitudMasAlta = pob[i].getAptitud();
 			}
 		}
@@ -226,15 +217,14 @@ public class AGenetico {
 					seleccionado = pob[aleatorio.nextInt(tamPob)];
 				else {
 					Cromosoma aux = pob[aleatorio.nextInt(tamPob)];
-					if (maximizar){
+					if (maximizar) {
 						if (aux.getAptitud() > seleccionado.getAptitud())
 							seleccionado = aux;
-					}
-					else{
+					} else {
 						if (aux.getAptitud() < seleccionado.getAptitud())
 							seleccionado = aux;
 					}
-					
+
 				}
 			}
 			nuevaPob[i] = (Cromosoma) seleccionado.clone();
@@ -243,67 +233,53 @@ public class AGenetico {
 	}
 
 	public void apartaElementosElite() {
-		 //en el array "resultado", a menor indice del elemento, menor puntuación de este
-		 elite= new Cromosoma[tamElite];
-		 for (int i=0; i<tamElite;i++){ 
-			 elite[i]=(Cromosoma) pob[i].clone();
-		 }
-			
-		 Arrays.sort(elite, comp);
+		// en el array "resultado", a menor indice del elemento, menor
+		// puntuación de este
+		elite = new Cromosoma[tamElite];
+		for (int i = 0; i < tamElite; i++) {
+			elite[i] = (Cromosoma) pob[i].clone();
+		}
 
-		 for (int i=tamElite; i<tamPob;i++){
-			 seleccionaElite(pob[i]);
-		 }
-		 /*
-		 * for (int i=0; i<tamElite;i++){ resultado[i]=pob[i]; }
-		 * 
-		 * for (int i=tamElite; i<tamPob;i++){
-		 *  }
-		 */
-		//return null;
+		Arrays.sort(elite, comp);
+
+		for (int i = tamElite; i < tamPob; i++) {
+			seleccionaElite(pob[i]);
+		}
+	
 	}
 
-	
-	private void seleccionaElite(Cromosoma c){
-		if (elite==null)
+	private void seleccionaElite(Cromosoma c) {
+		if (elite == null)
 			return;
-		/*						
-		  						for (int i=0;i<tamElite; i++){
-									if (elite[i]!=null)
-									System.out.print(elite[i].getPuntuacion()+", ");
-								}
-								System.out.println();
-								System.out.println(c.getPuntuacion());
-		*/
-		if (elite[0]==null){
-			elite[0]=(Cromosoma) c.clone();
+	
+		if (elite[0] == null) {
+			elite[0] = (Cromosoma) c.clone();
 			return;
 		}
-		if (c.getPuntuacion()>elite[0].getPuntuacion()){
-			int i=1;
-			boolean colocado=false;
-			Cromosoma aux=(Cromosoma) c.clone();
-			elite[0]=aux;
-			while ((i<elite.length)&&(elite[i]!=null)&&(!colocado)){
-				if (c.getPuntuacion()>elite[i].getPuntuacion()){
-					elite[i-1]=elite[i];
+		if (c.getPuntuacion() > elite[0].getPuntuacion()) {
+			int i = 1;
+			boolean colocado = false;
+			Cromosoma aux = (Cromosoma) c.clone();
+			elite[0] = aux;
+			while ((i < elite.length) && (elite[i] != null) && (!colocado)) {
+				if (c.getPuntuacion() > elite[i].getPuntuacion()) {
+					elite[i - 1] = elite[i];
 					i++;
+				} else {
+					elite[i - 1] = aux;
+					colocado = true;
 				}
-				else{
-					elite[i-1]=aux;
-					colocado=true;
-				}	
 			}
-			if (i==elite.length)
-				elite[i-1]=aux;
+			if (i == elite.length)
+				elite[i - 1] = aux;
 		}
 	}
-	
+
 	public void reinsertaElementosElite() {
-		for (int i=0;i<elite.length;i++){
-			if (elite[i]!=null){
-				pob[i]=elite[i];
-				elite[i]=null;
+		for (int i = 0; i < elite.length; i++) {
+			if (elite[i] != null) {
+				pob[i] = elite[i];
+				elite[i] = null;
 			}
 		}
 	}
@@ -424,7 +400,7 @@ public class AGenetico {
 	}
 
 	public void setElite(double tamElite) {
-		this.tamElite = (int) Math.round(tamElite*tamPob);
+		this.tamElite = (int) Math.round(tamElite * tamPob);
 	}
 
 	public void setFuncion(Funcion funcion) {
@@ -462,16 +438,13 @@ public class AGenetico {
 	public double getElMejor() {
 		return elMejor.aptitud;
 	}
-	
-	public boolean usaElite(){
-		return tamElite>0;
+
+	public boolean usaElite() {
+		return tamElite > 0;
 	}
-	
-	public Cromosoma getCromosomaMejor(){
+
+	public Cromosoma getCromosomaMejor() {
 		return elMejor;
 	}
-
-
-
 
 }
