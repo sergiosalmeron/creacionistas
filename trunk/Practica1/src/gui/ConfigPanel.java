@@ -1,6 +1,8 @@
 package gui;
-
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

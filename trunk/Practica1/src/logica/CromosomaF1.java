@@ -1,6 +1,8 @@
 package logica;
-import java.util.Random;
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 
 public class CromosomaF1 extends Cromosoma{
 

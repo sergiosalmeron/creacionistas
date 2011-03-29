@@ -1,5 +1,8 @@
 package logica;
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 import java.util.Arrays;
 import java.util.Random;
 

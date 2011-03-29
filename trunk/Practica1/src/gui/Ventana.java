@@ -1,11 +1,13 @@
 package gui;
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 import gui.ConfigPanel.ChoiceOption;
 import gui.ConfigPanel.ConfigListener;
 import gui.ConfigPanel.DoubleOption;
 import gui.ConfigPanel.InnerOption;
 import gui.ConfigPanel.IntegerOption;
-import gui.Demo.Figura;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -199,7 +201,7 @@ public class Ventana extends JFrame{
 		ConfigPanel<AGenetico> config = new ConfigPanel<AGenetico>();
 		
 		
-		config.addOption(new IntegerOption<Figura>(  
+		config.addOption(new IntegerOption<AGenetico>(  
 				"Tamaño Población", 					     
 				"Número de cromosomas que va a tener cada generación",   
 				"tamPob",  						    

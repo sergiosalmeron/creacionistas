@@ -1,5 +1,8 @@
 package logica;
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 public class CromosomaF4 extends Cromosoma{
 	
 	private int xMin=0;

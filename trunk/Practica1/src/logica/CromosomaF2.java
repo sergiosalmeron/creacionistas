@@ -1,5 +1,8 @@
 package logica;
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 public class CromosomaF2 extends Cromosoma{
 	
 	private double xMin=-3;

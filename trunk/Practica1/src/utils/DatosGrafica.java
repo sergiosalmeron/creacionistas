@@ -1,5 +1,8 @@
 package utils;
-
+/**
+ * @author Aleix Garrido Oberink, Sergio Salmerón Majadas.
+ * G07
+ */
 public class DatosGrafica {
 	
 	private double[] generaciones;
