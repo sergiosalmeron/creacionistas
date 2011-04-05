@@ -58,22 +58,6 @@ public class AGenetico {
 				pob[i] = new CromosomaF1(tolerancia);
 				maximizar = true;
 				break;
-			case F2:
-				pob[i] = new CromosomaF2(tolerancia);
-				maximizar = true;
-				break;
-			case F3:
-				pob[i] = new CromosomaF3(tolerancia);
-				maximizar = false;
-				break;
-			case F4:
-				pob[i] = new CromosomaF4(f4Aux, tolerancia);
-				maximizar = false;
-				break;
-			case F5:
-				pob[i] = new CromosomaF5(tolerancia);
-				maximizar = false;
-				break;
 			}
 			pob[i].evalua();
 		}
