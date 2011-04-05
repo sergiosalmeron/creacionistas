@@ -8,12 +8,12 @@ import java.util.Random;
 
 public abstract class Cromosoma{
 
-	protected boolean[] genes;
+	protected int[] genes;
 	protected double[] fenotipo;
 	protected double aptitud;
 	private double puntuacion;
 	private double puntAcum;
-	private Random r;
+	protected Random r;
 	
 	public Cromosoma() {
 		this.r = new Random();
@@ -24,34 +24,23 @@ public abstract class Cromosoma{
 	}
 	
 	
-	protected double binDec(int posIni, int posFin){
-		double decimal=0;
-		double eleva=1;
-        for (int i=posIni; i<posFin; i++){
-                if (genes[i]==true) {
-                        decimal=decimal+eleva;
-                }
-                eleva=eleva*2;
-        }
-        return decimal;
-	}
 	
 	public double getAptitud(){
 		return aptitud;
 	}
 	
-	public boolean getGen(int i){
+	public int getGen(int i){
 		return genes[i];
 	}
 	
-	public void setGenes(boolean[] genes){
+	public void setGenes(int[] genes){
 		for (int i=0; i<this.genes.length; i++){
 			this.genes[i]=genes[i];
 		}
 	}
 	
 	public void mutaGen(int i){
-		genes[i]=!genes[i];
+		genes[i]=0;
 	}
 	
 	public void setPuntuacion(double puntuacion){
@@ -79,7 +68,7 @@ public abstract class Cromosoma{
 	 * Función que devuelve el valor del fenotipo
 	 * @return double fenotipo
 	 */
-	public abstract double[] valorFenotipo();
+	public abstract int[] valorFenotipo();
 	
 	/**
 	 * Evaluador de la función del problema concreto
@@ -87,7 +76,7 @@ public abstract class Cromosoma{
 	 */
 	public abstract double evalua();
 	
-	public abstract int calculaLongCromosoma(double tolerancia);
+	public abstract int calculaLongCromosoma();
 	
 
     public abstract Object clone();
