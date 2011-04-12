@@ -33,6 +33,10 @@ public abstract class Cromosoma{
 		return genes[i];
 	}
 	
+	public void setGen(int pos, int valor){
+		genes[pos]=valor;
+	}
+	
 	public void setGenes(int[] genes){
 		for (int i=0; i<this.genes.length; i++){
 			this.genes[i]=genes[i];

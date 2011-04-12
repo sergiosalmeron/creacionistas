@@ -53,7 +53,7 @@ public class CromosomaCiudades extends Cromosoma{
 		for (int i=1; i<genes.length; i++){
 			valor=valor+Distancias.getDist(genes[i-1], genes[i]);
 		}
-		valor=Distancias.getDist(genes[genes.length-1], 0);
+		valor=valor+Distancias.getDist(genes[genes.length-1], 0);
 		
 		aptitud=valor;
 		return valor;

@@ -289,8 +289,7 @@ public class Ventana extends JFrame{
 		textoEtiqueta(area);
 		area.setEditable(false);
 		area.setBackground(Color.LIGHT_GRAY);
-		//area.setRows(3);
-		//JFrame frame = new JFrame("Grafica de la función "+ aG.getFuncion().toString());
+		
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 plot, area);
