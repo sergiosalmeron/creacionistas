@@ -55,6 +55,20 @@ public class PMX implements Cruce{
 	private void rellena(Cromosoma padre, Cromosoma madre) {
 		for (int i=0; i<padre.getLongCromosoma(); i++){
 			if (i<=pos1 || i>pos2){
+				int candidato=padre.getGen(i);
+				while(contiene(candidato,hijo)){
+					candidato=getEquivalente(candidato,madre,padre);
+				}
+				hijo[i]=candidato;
+				
+				candidato=madre.getGen(i);
+				while(contiene(candidato,hija)){
+					candidato=getEquivalente(candidato,padre,madre);
+				}
+				hija[i]=candidato;
+					
+					
+					/*
 				if (!contiene(padre.getGen(i),hijo))
 					hijo[i]=padre.getGen(i);
 				else
@@ -64,6 +78,7 @@ public class PMX implements Cruce{
 					hija[i]=madre.getGen(i);
 				else
 					hija[i]=getEquivalente(madre.getGen(i),padre,madre);
+				*/
 			}
 		}
 		

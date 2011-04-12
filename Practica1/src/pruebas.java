@@ -15,12 +15,12 @@ public class pruebas {
 		Cromosoma b=new CromosomaCiudades();
 		System.out.println("A:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%3d", a.getGen(i))+",");
+			System.out.print(String.format("%2d", a.getGen(i))+",");
 		}
 		System.out.println();
 		System.out.println("B:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%3d", b.getGen(i))+",");
+			System.out.print(String.format("%2d", b.getGen(i))+",");
 		}
 		System.out.println();
 		
@@ -31,14 +31,16 @@ public class pruebas {
 		
 		System.out.println("A:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%3d", a.getGen(i))+",");
+			System.out.print(String.format("%2d", a.getGen(i))+",");
 		}
 		System.out.println();
 		System.out.println("B:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%3d", b.getGen(i))+",");
+			System.out.print(String.format("%2d", b.getGen(i))+",");
 		}
 		//String.format("%3d", perm[i]);
 	}
+	
+
 	
 }
