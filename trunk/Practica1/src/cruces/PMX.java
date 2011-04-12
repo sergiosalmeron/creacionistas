@@ -1,25 +1,23 @@
 package cruces;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import logica.Cromosoma;
 
-public class OX implements Cruce {
+public class PMX implements Cruce{
 
 	private int pos1;
 	private int pos2;
-	private ArrayList<Integer> padreAux;
-	private ArrayList<Integer> madreAux;
+
 	private int[] hijo;
 	private int[] hija;
 	
+	
 	@Override
-	public  void cruza(Cromosoma padre, Cromosoma madre) {
+	public void cruza(Cromosoma padre, Cromosoma madre) {
 		this.inicializaPos(padre);
-		this.generaAux(padre, madre);
 		this.intercambia(padre, madre);
-		this.rellena();
+		this.rellena(padre,madre);
 		this.finaliza(padre, madre);
 	}
 	
@@ -40,19 +38,9 @@ public class OX implements Cruce {
 			pos1=pos2;
 			pos2=aux;
 		}
-	}
-	
-	private void generaAux(Cromosoma padre, Cromosoma madre){
-		padreAux=new ArrayList<Integer>();
-		madreAux=new ArrayList<Integer>();
-		int aux;
-
-		for (int i=0;i<padre.getLongCromosoma();i++){
-			aux=(pos2+i+1)%padre.getLongCromosoma();
-			padreAux.add(padre.getGen(aux));
-			madreAux.add(madre.getGen(aux));
-		}
 		
+		System.out.println("pos1= "+pos1);
+		System.out.println("pos2= "+pos2);
 	}
 	
 	private void intercambia(Cromosoma padre, Cromosoma madre){
@@ -64,39 +52,23 @@ public class OX implements Cruce {
 		}
 	}
 	
-	private void rellena(){
-		int aux=(pos2+1)%hijo.length;
-		while (aux!=(pos1+1)){
-			boolean puesto=false;
-			while (!puesto){
-				if (!contiene(madreAux.get(0), hija)){
-					hija[aux]=madreAux.get(0);
-					puesto=true;
-				}
-				//try{
-					madreAux.remove(0);
-			/*	}
-				catch(Exception e){
-					int erer=0;
-				}*/
+	private void rellena(Cromosoma padre, Cromosoma madre) {
+		for (int i=0; i<padre.getLongCromosoma(); i++){
+			if (i<=pos1 || i>pos2){
+				if (!contiene(padre.getGen(i),hijo))
+					hijo[i]=padre.getGen(i);
+				else
+					hijo[i]=getEquivalente(padre.getGen(i),madre,padre);
 				
+				if (!contiene(madre.getGen(i),hija))
+					hija[i]=madre.getGen(i);
+				else
+					hija[i]=getEquivalente(madre.getGen(i),padre,madre);
 			}
-			
-			puesto=false;
-			while (!puesto){
-				if (!contiene(padreAux.get(0), hijo)){
-					hijo[aux]=padreAux.get(0);
-					puesto=true;
-				}
-				padreAux.remove(0);
-			}
-			
-			
-			aux=(aux+1)%hijo.length;
 		}
 		
-		
 	}
+	
 	
 	private boolean contiene (int valor, int[] perso){
 		for (int i=0;i<perso.length;i++){
@@ -105,5 +77,24 @@ public class OX implements Cruce {
 		}
 		return false;
 	}
+	
+	private int getEquivalente(int valor, Cromosoma a, Cromosoma b){
+		return b.getGen(getPosicion(valor, a));
+	}
+	
+	private int getPosicion(int valor, Cromosoma c){
+		int i=pos1+1;
+		boolean encontrado=false;
+		while ((!encontrado)&&(i<pos2)){
+			if (c.getGen(i)==valor){
+				encontrado=true;
+			}
+			else
+				i++;
+		}
+		
+		return i;
+	}
+	
 
 }

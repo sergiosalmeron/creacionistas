@@ -7,6 +7,13 @@ package logica;
 import java.util.Arrays;
 import java.util.Random;
 
+import mutaciones.Inversion;
+import mutaciones.Mutacion;
+
+import cruces.Cruce;
+import cruces.OX;
+import cruces.PMX;
+
 import utils.ComparadorCromos;
 
 public class AGenetico {
@@ -45,6 +52,7 @@ public class AGenetico {
 		torneoAux = 3;
 		pob = new Cromosoma[tamPob];
 		comp = new ComparadorCromos();
+		maximizar=false;
 	}
 
 	// Inicialización //////////////////////////////////////////////////
@@ -53,12 +61,7 @@ public class AGenetico {
 		elMejor = null;
 		posMejor = -1;
 		for (int i = 0; i < tamPob; i++) {
-			switch (funcion) {
-			case F1:
-				pob[i] = new CromosomaF1(tolerancia);
-				maximizar = true;
-				break;
-			}
+			pob[i]= new CromosomaCiudades();
 			pob[i].evalua();
 		}
 
@@ -298,7 +301,10 @@ public class AGenetico {
 
 	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
 
-		boolean[] hijo = new boolean[padre.getLongCromosoma()];
+		Cruce c=new OX();
+		c.cruza(padre, madre);
+		
+		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
 		boolean[] hija = new boolean[madre.getLongCromosoma()];
 
 		for (int i = 0; i < padre.getLongCromosoma(); i++) {
@@ -313,7 +319,7 @@ public class AGenetico {
 		}
 
 		padre.setGenes(hijo);
-		madre.setGenes(hija);
+		madre.setGenes(hija);*/
 		padre.evalua();
 		madre.evalua();
 	}
@@ -321,6 +327,7 @@ public class AGenetico {
 	// Mutación ///////////////////////////////////////////////////////
 
 	public void mutacion() {
+		Mutacion m= new Inversion();
 		Random r = new Random();
 		double probabilidad;
 		for (int i = 0; i < tamPob; i++) {
@@ -328,7 +335,8 @@ public class AGenetico {
 			for (int j = 0; j < pob[i].getLongCromosoma(); j++) {
 				probabilidad = r.nextDouble();
 				if (probabilidad < probMutacion) {
-					pob[i].mutaGen(j);
+					//pob[i].mutaGen(j);
+					m.muta(pob[i]);
 					mutado = true;
 				}
 			}
@@ -337,7 +345,7 @@ public class AGenetico {
 		}
 	}
 
-	// Getters y Setters
+	// Getters y Setters ///////////////////////////////////////////////
 	public int getTamPob() {
 		return tamPob;
 	}
