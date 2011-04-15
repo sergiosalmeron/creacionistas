@@ -13,6 +13,7 @@ import mutaciones.Mutacion;
 import cruces.CX;
 import cruces.Cruce;
 import cruces.OX;
+import cruces.OXorden;
 import cruces.PMX;
 
 import utils.ComparadorCromos;
@@ -302,7 +303,7 @@ public class AGenetico {
 
 	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
 
-		Cruce c=new CX();
+		Cruce c=new OXorden();
 		c.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
