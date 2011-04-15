@@ -1,6 +1,7 @@
 import cruces.CX;
 import cruces.Cruce;
 import cruces.OX;
+import cruces.OXorden;
 import cruces.PMX;
 import logica.Cromosoma;
 import logica.CromosomaCiudades;
@@ -27,7 +28,7 @@ public class pruebas {
 		}
 		System.out.println();
 		
-		Cruce c=new CX();
+		Cruce c=new OXorden();
 		c.cruza(a,b);
 		//c.muta(b);
 		
