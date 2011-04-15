@@ -10,6 +10,7 @@ import java.util.Random;
 import mutaciones.Inversion;
 import mutaciones.Mutacion;
 
+import cruces.CX;
 import cruces.Cruce;
 import cruces.OX;
 import cruces.PMX;
@@ -301,7 +302,7 @@ public class AGenetico {
 
 	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
 
-		Cruce c=new PMX();
+		Cruce c=new CX();
 		c.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
