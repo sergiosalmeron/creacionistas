@@ -1,3 +1,4 @@
+import cruces.CX;
 import cruces.Cruce;
 import cruces.OX;
 import cruces.PMX;
@@ -13,30 +14,33 @@ public class pruebas {
 	public static void main (String[] args){
 		Cromosoma a=new CromosomaCiudades();
 		Cromosoma b=new CromosomaCiudades();
+		
+		
 		System.out.println("A:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%2d", a.getGen(i))+",");
+			System.out.print(String.format("%3d", a.getGen(i))+",");
 		}
 		System.out.println();
 		System.out.println("B:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%2d", b.getGen(i))+",");
+			System.out.print(String.format("%3d", b.getGen(i))+",");
 		}
 		System.out.println();
 		
-		Cruce c=new PMX();
+		Cruce c=new CX();
 		c.cruza(a,b);
 		//c.muta(b);
 		
+
 		
 		System.out.println("A:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%2d", a.getGen(i))+",");
+			System.out.print(String.format("%3d", a.getGen(i))+",");
 		}
 		System.out.println();
 		System.out.println("B:");
 		for (int i=0;i<a.getLongCromosoma();i++){
-			System.out.print(String.format("%2d", b.getGen(i))+",");
+			System.out.print(String.format("%3d", b.getGen(i))+",");
 		}
 		//String.format("%3d", perm[i]);
 	}
