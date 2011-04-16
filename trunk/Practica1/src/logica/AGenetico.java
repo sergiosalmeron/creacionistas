@@ -11,6 +11,7 @@ import mutaciones.Inversion;
 import mutaciones.Mutacion;
 
 import cruces.CX;
+import cruces.CodOrd;
 import cruces.Cruce;
 import cruces.OX;
 import cruces.OXorden;
@@ -303,7 +304,7 @@ public class AGenetico {
 
 	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
 
-		Cruce c=new OXorden();
+		Cruce c=new OX();
 		c.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
