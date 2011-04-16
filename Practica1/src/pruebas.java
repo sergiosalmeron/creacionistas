@@ -1,4 +1,5 @@
 import cruces.CX;
+import cruces.CodOrd;
 import cruces.Cruce;
 import cruces.OX;
 import cruces.OXorden;
@@ -28,7 +29,7 @@ public class pruebas {
 		}
 		System.out.println();
 		
-		Cruce c=new OXorden();
+		Cruce c=new CodOrd();
 		c.cruza(a,b);
 		//c.muta(b);
 		
