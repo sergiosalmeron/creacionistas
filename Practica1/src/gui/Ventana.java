@@ -11,6 +11,8 @@ import gui.ConfigPanel.IntegerOption;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +31,7 @@ import org.math.plot.Plot2DPanel;
 import utils.DatosGrafica;
 
 import logica.AGenetico;
+import logica.Distancias;
 import logica.Funcion;
 import logica.Seleccion;
 
@@ -38,9 +41,11 @@ public class Ventana extends JFrame{
 	private boolean datosOK;
 	private JTabbedPane graficas;
 	
+	private JFrame map;
+	
 	public Ventana(){
 
-		super("Práctica 1: Grupo G07");
+		super("Práctica 2: Grupo G07");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JPanel panelPrinc=new JPanel();///aaa
@@ -317,6 +322,18 @@ public class Ventana extends JFrame{
 		graficas.addTab("Grafica de la función "+ aG.getFuncion().toString(), graf);
 		graficas.setSelectedIndex(graficas.getComponentCount()-1);
 		///aaa
+		parteMapa();
+	}
+
+	private void parteMapa() {
+		map=new JFrame();
+		Lienzo l=new Lienzo();
+		l.setCromosoaFinal(aG.getCromosomaMejor());
+		Graphics g= l.getGraphics();
+		map.setSize(800, 600);
+		map.setVisible(true);
+		map.add(l);
+		
 	}
 
 	private void textoEtiqueta(JTextArea area) {
@@ -324,9 +341,13 @@ public class Ventana extends JFrame{
 		aux="  Valor "+ aG.getElMejor() + " en:"+'\n';
 		area.append(aux);
 		int i=1;
-		
-		for (double fenotipo : aG.getCromosomaMejor().valorFenotipo())  {
-		      aux="    X"+i+"="+fenotipo+'\n';
+		int contador=0;
+		for (int fenotipo : aG.getCromosomaMejor().valorFenotipo())  {
+		      aux="    X"+i+"="+Distancias.CIUDADES[fenotipo];
+		      contador++;
+		      if (contador%6==0){
+		    	  aux=aux+'\n';
+		      }
 		      area.append(aux);
 		      i++;
 		}
