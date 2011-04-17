@@ -1,5 +1,7 @@
 package logica;
 
+import gui.Pos;
+
 public class Distancias {
 	
 	final static int[][] DIST = {
@@ -32,7 +34,7 @@ public class Distancias {
 		{544, 473, 482, 219, 644, 436, 997, 939, 781, 506, 265, 713, 388, 187, 1153, 615, 1097, 129, 602, 313, 941, 209, 877, 1009, 880, 1055},
 		{401, 150, 75, 219, 516, 675, 590, 796, 638, 654, 613, 306, 357, 444, 1010, 292, 690, 278, 459, 628, 611, 340, 734, 583, 694, 912, 407}
 	};
-	final static String[] CIUDADES = {
+	public final static String[] CIUDADES = {
 		"Madrid",
 		"Albacete",
 		"Alicante",
@@ -67,5 +69,44 @@ public class Distancias {
 		if (j>i) return getDist(j, i);
 		return DIST[i][j];
 	}
+	
+	public static int getPosX(int pos){
+		return POSICIONES[pos].getX();
+	}
+	
+	public static int getPosY(int pos){
+		return POSICIONES[pos].getY();
+	}
+	
+	final static Pos[] POSICIONES= {
+		new Pos(345,260),//Madrid
+		new Pos(450,380),//Albacete
+		new Pos(525,400),//Alicante
+		new Pos(430,500),//Almería
+		new Pos(300,250),//Ávila
+		new Pos(215,390),//Badajoz
+		new Pos(650,175),//Barcelona
+		new Pos(405,60),//Bilbao
+		new Pos(360,130),//Burgos
+		new Pos(235,310),//Cáceres
+		new Pos(230,540),//Cádiz
+		new Pos(550,280),//Castellón
+		new Pos(350,370),//Ciudad Real
+		new Pos(290,430),//Córdoba
+		new Pos(110,65),//A Coruña
+		new Pos(435,300),//Cuenca
+		new Pos(695,135),//Gerona
+		new Pos(365,490),//Granada
+		new Pos(400,235),//Guadalajara
+		new Pos(175,455),//Huelva
+		new Pos(545,130),//Huesca
+		new Pos(360,435),//Jaén
+		new Pos(250,110),//León
+		new Pos(605,145),//Lérida
+		new Pos(420,130),//Logroña
+		new Pos(170,80),//Lugo
+		new Pos(295,515),//Málaga
+		new Pos(475,440)//Murcia
+	};
 
 }
