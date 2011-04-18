@@ -13,9 +13,11 @@ import mutaciones.Mutacion;
 import cruces.CX;
 import cruces.CodOrd;
 import cruces.Cruce;
+import cruces.CruceEnum;
 import cruces.OX;
 import cruces.OXorden;
 import cruces.PMX;
+import cruces.RecombRutas;
 
 import utils.ComparadorCromos;
 
@@ -32,15 +34,19 @@ public class AGenetico {
 	// private int generacionActual = 0;
 	private double mediaPoblacion = 0;
 
-	private Funcion funcion;
+
+	private CruceEnum cruce;
 	private Seleccion seleccion;
 	private boolean maximizar;
-	private int f4Aux;
 	private int torneoAux;
+	private int beta;
 	// elite
 	private int tamElite = 0;
 	private Cromosoma[] elite;
 	private ComparadorCromos comp;
+	
+	// cruces
+	private Cruce cruceElegido;
 
 	// Constructora //////////////////////////////////////////////////////
 
@@ -51,8 +57,8 @@ public class AGenetico {
 		this.probMutacion = 0.005;
 		this.tolerancia = 0.0001;
 		this.tamElite = 0;
-		this.f4Aux = 1;
 		torneoAux = 3;
+		beta=3;
 		pob = new Cromosoma[tamPob];
 		comp = new ComparadorCromos();
 		maximizar=false;
@@ -162,6 +168,8 @@ public class AGenetico {
 		case Torneo:
 			seleccionTorneoDet();
 			break;
+		case Ranking:
+			seleccionRanking();
 		}
 
 	}
@@ -220,6 +228,107 @@ public class AGenetico {
 			nuevaPob[i] = (Cromosoma) seleccionado.clone();
 		}
 		pob = nuevaPob;
+	}
+	
+	private void seleccionRanking(){
+		//ordenamos la pob
+		quickSort(pob, 0, tamPob-1);
+		
+		//creamos pob. nueva y clonamos dos primeros cromosomas
+		Cromosoma[] nuevaPob = new Cromosoma[tamPob];
+		nuevaPob[0] = (Cromosoma) pob[0].clone();
+		nuevaPob[1] = (Cromosoma) pob[1].clone();
+        int numPadres = 2;
+
+        double[] fitnessSegments = rankPopulation();
+        double entireSegment = fitnessSegments[fitnessSegments.length - 1];
+
+        while (numPadres < tamPob) {
+
+                double x = (double) (Math.random() * entireSegment);
+                if (x <= fitnessSegments[0]) {
+
+                        // El primer individuo fue seleccionado
+                		nuevaPob[numPadres] = (Cromosoma) pob[0].clone();
+                        numPadres++;
+                } else
+                        for (int i = 1; i < tamPob; i++)
+                                if (x > fitnessSegments[i - 1] && x <= fitnessSegments[i]) {
+
+                                        // El i-esimo individuo fue seleccionado
+                                		nuevaPob[numPadres] = (Cromosoma) pob[i]
+                                                        .clone();
+                                        numPadres++;
+                                }
+        }
+
+        pob = nuevaPob;
+
+		
+	}
+	
+
+	private double[] rankPopulation() {
+		double[] fitnessSegments = new double[tamPob];
+
+        for (int i = 0; i < fitnessSegments.length; i++) {
+                double probIEsimo = (double) i / tamPob;
+                probIEsimo = probIEsimo * 2 * (beta - 1);
+                probIEsimo = beta - probIEsimo;
+                probIEsimo = (double) probIEsimo * ((double) 1 / tamPob);
+                if (i != 0)
+                	fitnessSegments[i] = fitnessSegments[i - 1] + probIEsimo;
+                else
+                	fitnessSegments[i] = probIEsimo;
+        }
+        return fitnessSegments;
+
+	}
+
+	private void quickSort(Cromosoma[] poblacion, int izq, int dch) {
+		if (dch <= izq)
+            return;
+		int i = particion(poblacion, izq, dch);
+		quickSort(poblacion, izq, i - 1);
+		quickSort(poblacion, i + 1, dch);
+
+		
+	}
+
+	private int particion(Cromosoma[] poblacion, int izq, int dch) {
+		int i = izq - 1;
+        int j = dch;
+        while (true) {
+
+                while (menor(poblacion[++i], poblacion[dch]))
+                	//Elem a intercambiar por la izq
+                        ; 
+                while (menor(poblacion[dch], poblacion[--j]))
+                        // Elem a intercambiar por la dch
+                        if (j == izq)
+                                break; // ¿nos salimos del array?
+                if (i >= j)
+                        break; // ¿se han cruzado los indices?
+
+                intercambio(poblacion, i, j);
+        }
+
+        intercambio(poblacion, i, dch);
+
+        return i;
+
+	}
+
+	private boolean menor(Cromosoma cromosoma, Cromosoma cromosoma2) {
+		return (cromosoma.getAptitud() < cromosoma2.getAptitud());
+	}
+
+	private void intercambio(Cromosoma[] poblacion, int i, int j) {
+		Cromosoma intercamb = poblacion[i];
+		poblacion[i] = poblacion[j];
+		poblacion[j] = intercamb;
+
+		
 	}
 
 	public void apartaElementosElite() {
@@ -304,8 +413,7 @@ public class AGenetico {
 
 	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
 
-		Cruce c=new OX();
-		c.cruza(padre, madre);
+		cruceElegido.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
 		boolean[] hija = new boolean[madre.getLongCromosoma()];
@@ -398,28 +506,12 @@ public class AGenetico {
 		this.tamElite = (int) Math.round(tamElite * tamPob);
 	}
 
-	public void setFuncion(Funcion funcion) {
-		this.funcion = funcion;
-	}
-
-	public Funcion getFuncion() {
-		return funcion;
-	}
-
 	public void setSeleccion(Seleccion seleccion) {
 		this.seleccion = seleccion;
 	}
 
 	public Seleccion getSeleccion() {
 		return seleccion;
-	}
-
-	public void setF4Aux(int f4Aux) {
-		this.f4Aux = f4Aux;
-	}
-
-	public int getF4Aux() {
-		return f4Aux;
 	}
 
 	public void setTorneoAux(int torneoAux) {
@@ -440,6 +532,42 @@ public class AGenetico {
 
 	public Cromosoma getCromosomaMejor() {
 		return elMejor;
+	}
+
+	public void setBeta(int beta) {
+		this.beta = beta;
+	}
+
+	public int getBeta() {
+		return beta;
+	}
+
+	public void setCruce(CruceEnum cruce) {
+		switch (cruce) {
+		case PMX:
+			cruceElegido=new PMX();
+			break;
+		case OX:
+			cruceElegido=new OX();
+			break;
+		case OXorden:
+			cruceElegido=new OXorden();
+			break;
+		case CX:
+			cruceElegido=new CX();
+			break;
+		case ERX:
+			cruceElegido=new RecombRutas();
+			break;
+		case CodOrdinal:
+			cruceElegido=new CodOrd();
+			break;
+		}
+		this.cruce = cruce;
+	}
+
+	public CruceEnum getCruce() {
+		return cruce;
 	}
 
 }

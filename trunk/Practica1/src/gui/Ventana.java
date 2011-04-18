@@ -34,6 +34,7 @@ import logica.AGenetico;
 import logica.Distancias;
 import logica.Funcion;
 import logica.Seleccion;
+import cruces.CruceEnum;
 
 public class Ventana extends JFrame{
 	private AGenetico aG;
@@ -85,8 +86,7 @@ public class Ventana extends JFrame{
 				else{
 					valido.setText(textoHayErrores);
 					datosOK=false;
-				}
-				//valido.setText(isConfigValid ? textoTodoValido: textoHayErrores);				
+				}			
 			}
 		});
 		add(valido, BorderLayout.SOUTH);
@@ -105,7 +105,6 @@ public class Ventana extends JFrame{
 				if (datosOK){
 				datos=new DatosGrafica(aG.getNumMaxGen());
 				aG.inicializa();
-				//aG.setElite(1);
 				for (int i=0; i<aG.getNumMaxGen(); i++){
 					aG.evaluarPoblacion();
 					datos.addDato(aG.getElMejor(), aG.getMejorLocal(), aG.getMediaPoblacion());
@@ -136,66 +135,6 @@ public class Ventana extends JFrame{
 		panelCentral.add(boton);
 		panelCentral.add(Box.createGlue());
 		// crea botones para mostrar el estado de las figuras por consola
-/*		boton = new JButton("muestra fig. 1");
-		boton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.err.println(f1.toString());
-			}
-		});
-		panelCentral.add(boton);
-		boton = new JButton("muestra fig. 2");
-		boton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.err.println(f2.toString());
-			}
-		});
-		panelCentral.add(boton);
-
-		// crea botones para sobreescribir el panel con las figuras
-		boton = new JButton("fig. 1 a panel");
-		boton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cp.setTarget(f1);
-				cp.initialize();
-				panelEnEdicion.setText("Editando figura 1");
-			}
-		});
-		panelCentral.add(boton);
-		boton = new JButton("fig. 2 a panel");
-		boton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cp.setTarget(f2);
-				cp.initialize();
-				panelEnEdicion.setText("Editando figura 2");
-			}
-		});
-		panelCentral.add(boton);
-
-		// crea botones para sobreescribir las figuras con el panel
-		boton = new JButton("panel a fig. 1");
-		boton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cp.setTarget(f1);
-				cp.copyUpdate();
-				panelEnEdicion.setText("Editando figura 1");
-			}
-		});
-		panelCentral.add(boton);
-		boton = new JButton("panel a fig. 2");
-		boton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cp.setTarget(f2);
-				cp.copyUpdate();
-				panelEnEdicion.setText("Editando figura 2");
-			}
-		});
-		panelCentral.add(boton);*/
 	}
 	
 	public ConfigPanel<AGenetico> creaPanelConfiguracion() {
@@ -232,8 +171,13 @@ public class Ventana extends JFrame{
 			    "% Elitismo", 					 
 			    "Porcentaje de elitismo",           
 			    "elite",                     
-			    0, 100, 100))
-			    .addOption(new ChoiceOption<AGenetico>(	 
+			    0, 100, 100));
+		config.addOption(new ChoiceOption<AGenetico>(	 
+			    "Cruce",							 
+			    "Tipo de cruce de nuestro algoritmo", 					 
+			    "cruce",   							 
+			    CruceEnum.values()));
+			    /*.addOption(new ChoiceOption<AGenetico>(	 
 			    "Función",							 
 			    "Función que queremos probar", 					 
 			    "funcion",   							 
@@ -248,8 +192,7 @@ public class Ventana extends JFrame{
 		  		  .addInner(new IntegerOption<AGenetico>(
 		  		     "Variable n", "numero de variables", "f4Aux", 1, Integer.MAX_VALUE))
 		  		  .endInner();
-	
-		
+				*/
 		config.addOption(new ChoiceOption<AGenetico>(	 
 			    "Selección",							 
 			    "Tipo de selección de nuestro algoritmo", 					 
@@ -264,6 +207,16 @@ public class Ventana extends JFrame{
 				 })
 		  		  .addInner(new IntegerOption<AGenetico>(
 		  		     "Participantes torneo", "Número de participantes", "torneoAux", 1, 5))
+		  		  .endInner();
+		 config.beginInner(new InnerOption<AGenetico, AGenetico>( 
+			  	"Opciones para Ranking", "opciones de ranking", 
+			  	"seleccion", Seleccion.class) {
+					public AGenetico inner(AGenetico target) {
+						return (target.getSeleccion() == Seleccion.Ranking) ? target : null;
+					}
+				 })
+		  		  .addInner(new IntegerOption<AGenetico>(
+		  		     "Valor de Beta", "Valor a la variable Beta", "beta", 1, 3))
 		  		  .endInner()
 			    
 				
@@ -319,7 +272,7 @@ public class Ventana extends JFrame{
 		graf.add(cerrar, BorderLayout.SOUTH);
 		//frame.setContentPane(splitPane);
 		//frame.setVisible(true);
-		graficas.addTab("Grafica de la función "+ aG.getFuncion().toString(), graf);
+		graficas.addTab("Grafica de Rutas", graf);
 		graficas.setSelectedIndex(graficas.getComponentCount()-1);
 		///aaa
 		parteMapa();
