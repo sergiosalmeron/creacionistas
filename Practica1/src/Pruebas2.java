@@ -1,9 +1,14 @@
 import java.util.ArrayList;
 
+import com.sun.accessibility.internal.resources.accessibility;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 import cruces.RecombRutas;
 
 import logica.Cromosoma;
 import logica.CromosomaCiudades;
+import mutaciones.Heuristica;
+import mutaciones.Intercambio;
 
 
 public class Pruebas2 {
@@ -25,6 +30,8 @@ public class Pruebas2 {
 			System.out.println("esto no tira");
 		}*/
 		
+		
+		/*
 		Cromosoma a=new CromosomaCiudades();
 		Cromosoma b=new CromosomaCiudades();
 		System.out.print("Padre:");
@@ -53,6 +60,13 @@ public class Pruebas2 {
 		System.out.println();
 		System.out.println("Tabla Adyacencias:");
 		c.muestraTabla();
+		
+		*/
+		
+		Cromosoma a=new CromosomaCiudades();
+		Heuristica b=new Heuristica();
+		b.muta(a);
+		
 	}
 
 }
