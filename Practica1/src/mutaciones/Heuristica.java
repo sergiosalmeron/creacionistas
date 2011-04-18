@@ -28,7 +28,7 @@ public class Heuristica implements Mutacion {
 				candidato=r.nextInt(posiciones);
 			resultado.add(candidato);
 		}
-System.out.println("posiciones a tocar: "+resultado);
+//System.out.println("posiciones a tocar: "+resultado);
 		return resultado;
 	}
 	
@@ -47,12 +47,12 @@ System.out.println("posiciones a tocar: "+resultado);
 			for (int j=0;j<p.size();j++){
 				solu.setGen(p.get(j), d.get(i).get(j));
 			}
-System.out.println();
-for (int ii=0;ii<solu.getLongCromosoma();ii++){
-	System.out.print(String.format("%3d", solu.getGen(ii))+",");
-}
-System.out.println();
-System.out.println(solu.evalua());
+//System.out.println();
+//for (int ii=0;ii<solu.getLongCromosoma();ii++){
+//	System.out.print(String.format("%3d", solu.getGen(ii))+",");
+//}
+//System.out.println();
+//System.out.println(solu.evalua());
 			if (solu.evalua()<mejorResultado){
 				mejorResultado=solu.getAptitud();
 				mejorElemento=i;
@@ -61,8 +61,8 @@ System.out.println(solu.evalua());
 		for (int j=0;j<p.size();j++){
 			solu.setGen(p.get(j), d.get(mejorElemento).get(j));
 		}
-System.out.print("me quedo con el elemento:");
-System.out.println(solu.evalua());
+//System.out.print("me quedo con el elemento:");
+//System.out.println(solu.evalua());
 		return solu;
 		
 	}
