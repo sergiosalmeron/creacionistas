@@ -27,6 +27,7 @@ public class RecombRutas implements Cruce{
 			hija[i]=-1;
 		}
 		creaTablaAdy(padre, madre);
+		muestraTabla();
 		generaDescendencia(hijo, madre.getGen(0));
 		generaDescendencia(hija, padre.getGen(0));
 		finaliza(padre,madre,hijo,hija);
@@ -161,8 +162,9 @@ public class RecombRutas implements Cruce{
 		int resultado=-1;
 		if (posicionesResultado.size()>0){
 			int posGanadora=r.nextInt(posicionesResultado.size());
-			resultado=opciones.get(posGanadora);
-			opciones.remove(posGanadora);
+			int ganador=posicionesResultado.get(posGanadora);
+			resultado=opciones.get(ganador);
+			opciones.remove(ganador);
 		}
 		return resultado;
 	}
