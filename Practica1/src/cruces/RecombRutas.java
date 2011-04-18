@@ -2,6 +2,7 @@ package cruces;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import logica.Cromosoma;
 
@@ -11,6 +12,11 @@ public class RecombRutas implements Cruce{
 	private HashMap<Integer, ArrayList<Integer>> valoresAdy;
 	
 	private boolean finalizado;
+	private Random r;
+	
+	public RecombRutas(){
+		r=new Random();
+	}
 
 	@Override
 	public void cruza(Cromosoma padre, Cromosoma madre) {
@@ -102,7 +108,7 @@ public class RecombRutas implements Cruce{
 				}
 		}
 	}
-	
+	/*
 	private int eligeSiguienteDestino(ArrayList<Integer> opciones){
 		int menorNumVecinos=100000;
 		int numVecinos;
@@ -113,11 +119,50 @@ public class RecombRutas implements Cruce{
 				menorNumVecinos=numVecinos;
 				posResultado=i;
 			}
+			else{
+				if (menorNumVecinos==numVecinos){
+					if (r.nextInt(2)>0){
+						menorNumVecinos=numVecinos;
+						posResultado=i;
+					}
+				}
+				
+			}
 		}
 		int resultado=-1;
 		if (posResultado>=0){
 			resultado=opciones.get(posResultado);
 			opciones.remove(posResultado);
+		}
+		return resultado;
+	}*/
+	
+	private int eligeSiguienteDestino(ArrayList<Integer> opciones){
+		int menorNumVecinos=100000;
+		int numVecinos;
+		//int posResultado=-1;
+		ArrayList<Integer> posicionesResultado=new ArrayList<Integer>();
+		for (int i=0;i<opciones.size();i++){
+			numVecinos=valoresAdy.get(opciones.get(i)).size();
+			if (menorNumVecinos>numVecinos){
+				menorNumVecinos=numVecinos;
+				posicionesResultado.clear();
+				posicionesResultado.add(i);
+				//posResultado=i;
+				
+			}
+			else{
+				if (menorNumVecinos==numVecinos){
+					posicionesResultado.add(i);
+				}
+				
+			}
+		}
+		int resultado=-1;
+		if (posicionesResultado.size()>0){
+			int posGanadora=r.nextInt(posicionesResultado.size());
+			resultado=opciones.get(posGanadora);
+			opciones.remove(posGanadora);
 		}
 		return resultado;
 	}
