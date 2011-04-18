@@ -4,6 +4,6 @@ package logica;
  * G07
  */
 public enum Seleccion {
-	Ruleta, Torneo
+	Ruleta, Torneo, Ranking
 
 }
