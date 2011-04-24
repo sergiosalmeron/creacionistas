@@ -32,9 +32,9 @@ import utils.DatosGrafica;
 
 import logica.AGenetico;
 import logica.Distancias;
-import logica.Funcion;
 import logica.Seleccion;
 import cruces.CruceEnum;
+import mutaciones.MutaEnum;
 
 public class Ventana extends JFrame{
 	private AGenetico aG;
@@ -177,6 +177,11 @@ public class Ventana extends JFrame{
 			    "Tipo de cruce de nuestro algoritmo", 					 
 			    "cruce",   							 
 			    CruceEnum.values()));
+		config.addOption(new ChoiceOption<AGenetico>(	 
+			    "Mutación",							 
+			    "Tipo de mutación de nuestro algoritmo", 					 
+			    "mutacion",   							 
+			    MutaEnum.values()));
 			    /*.addOption(new ChoiceOption<AGenetico>(	 
 			    "Función",							 
 			    "Función que queremos probar", 					 

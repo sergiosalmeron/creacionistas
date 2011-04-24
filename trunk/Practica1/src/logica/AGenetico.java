@@ -7,7 +7,11 @@ package logica;
 import java.util.Arrays;
 import java.util.Random;
 
+import mutaciones.Heuristica;
+import mutaciones.Insercion;
+import mutaciones.Intercambio;
 import mutaciones.Inversion;
+import mutaciones.MutaEnum;
 import mutaciones.Mutacion;
 
 import cruces.CX;
@@ -35,7 +39,8 @@ public class AGenetico {
 	private double mediaPoblacion = 0;
 
 
-	private CruceEnum cruce;
+	
+	
 	private Seleccion seleccion;
 	private boolean maximizar;
 	private int torneoAux;
@@ -46,7 +51,11 @@ public class AGenetico {
 	private ComparadorCromos comp;
 	
 	// cruces
+	private CruceEnum cruce;
 	private Cruce cruceElegido;
+	//mutaciones
+	private MutaEnum mutacion;
+	private Mutacion mutacionElegida;
 
 	// Constructora //////////////////////////////////////////////////////
 
@@ -438,19 +447,23 @@ public class AGenetico {
 	// Mutación ///////////////////////////////////////////////////////
 
 	public void mutacion() {
-		Mutacion m= new Inversion();
 		Random r = new Random();
 		double probabilidad;
 		for (int i = 0; i < tamPob; i++) {
 			boolean mutado = false;
-			for (int j = 0; j < pob[i].getLongCromosoma(); j++) {
+			probabilidad = r.nextDouble();
+			if (probabilidad < probMutacion) {
+				mutacionElegida.muta(pob[i]);
+				mutado = true;
+			}
+			/*for (int j = 0; j < pob[i].getLongCromosoma(); j++) {
 				probabilidad = r.nextDouble();
 				if (probabilidad < probMutacion) {
 					//pob[i].mutaGen(j);
-					m.muta(pob[i]);
+					mutacionElegida.muta(pob[i]);
 					mutado = true;
 				}
-			}
+			}*/
 			if (mutado)
 				pob[i].evalua();
 		}
@@ -568,6 +581,28 @@ public class AGenetico {
 
 	public CruceEnum getCruce() {
 		return cruce;
+	}
+	
+	public void setMutacion(MutaEnum mutacion) {
+		switch (mutacion) {
+		case Inversión:
+			mutacionElegida=new Inversion();
+			break;
+		case Intercambio:
+			mutacionElegida=new Intercambio();
+			break;
+		case Inserción:
+			mutacionElegida=new Insercion();
+			break;
+		case Heurística:
+			mutacionElegida=new Heuristica();
+			break;
+		}
+		this.mutacion = mutacion;
+	}
+
+	public MutaEnum getMutacion() {
+		return mutacion;
 	}
 
 }
