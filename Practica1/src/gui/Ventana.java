@@ -11,8 +11,6 @@ import gui.ConfigPanel.IntegerOption;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +35,10 @@ import cruces.CruceEnum;
 import mutaciones.MutaEnum;
 
 public class Ventana extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private AGenetico aG;
 	private DatosGrafica datos;
 	private boolean datosOK;
@@ -162,11 +164,11 @@ public class Ventana extends JFrame{
 			    "probabilidad de que haya mutación",          
 			    "probMutacion",                     
 			    0, 100, 100))
-			    .addOption(new DoubleOption<AGenetico>(   
+			    /*.addOption(new DoubleOption<AGenetico>(   
 			    "Tolerancia", 					 
 			    "Tolerancia de la función",          
 			    "tolerancia",                     
-			    0, 1))						     
+			    0, 1))*/						     
 			    .addOption(new DoubleOption<AGenetico>(   
 			    "% Elitismo", 					 
 			    "Porcentaje de elitismo",           
@@ -287,7 +289,6 @@ public class Ventana extends JFrame{
 		map=new JFrame();
 		Lienzo l=new Lienzo();
 		l.setCromosoaFinal(aG.getCromosomaMejor());
-		Graphics g= l.getGraphics();
 		map.setSize(800, 600);
 		map.setVisible(true);
 		map.add(l);
