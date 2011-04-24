@@ -34,7 +34,7 @@ public class AGenetico {
 	private int posMejor;
 	private double probCruce;
 	private double probMutacion;
-	private double tolerancia;
+	//private double tolerancia;
 	// private int generacionActual = 0;
 	private double mediaPoblacion = 0;
 
@@ -63,8 +63,7 @@ public class AGenetico {
 		this.tamPob = 100;
 		this.numMaxGen = 100;
 		this.probCruce = 0.4;
-		this.probMutacion = 0.005;
-		this.tolerancia = 0.0001;
+		this.probMutacion = 0.05;
 		this.tamElite = 0;
 		torneoAux = 3;
 		beta=3;
@@ -503,13 +502,7 @@ public class AGenetico {
 		this.probMutacion = probMutacion;
 	}
 
-	public double getTolerancia() {
-		return tolerancia;
-	}
 
-	public void setTolerancia(double tolerancia) {
-		this.tolerancia = tolerancia;
-	}
 
 	public double getElite() {
 		return tamElite;

@@ -1,6 +1,6 @@
 package gui;
 
-import java.awt.BasicStroke;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,6 +16,10 @@ class Lienzo extends Canvas
 {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ImageObserver observer;
 	private Cromosoma c;
 
