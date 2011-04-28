@@ -20,6 +20,7 @@ import cruces.CodOrd;
 import cruces.Cruce;
 import cruces.CruceEnum;
 import cruces.OX;
+import cruces.OXDesplazado;
 import cruces.OXorden;
 import cruces.PMX;
 import cruces.RecombRutas;
@@ -568,6 +569,9 @@ public class AGenetico {
 			break;
 		case CodOrdinal:
 			cruceElegido=new CodOrd();
+			break;
+		case OXDesplazado:
+			cruceElegido=new OXDesplazado();
 			break;
 		}
 		this.cruce = cruce;
