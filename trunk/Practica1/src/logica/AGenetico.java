@@ -7,6 +7,7 @@ package logica;
 import java.util.Arrays;
 import java.util.Random;
 
+import mutaciones.CambiaInicios;
 import mutaciones.Heuristica;
 import mutaciones.Insercion;
 import mutaciones.Intercambio;
@@ -589,6 +590,9 @@ public class AGenetico {
 			break;
 		case Heurística:
 			mutacionElegida=new Heuristica();
+			break;
+		case CambiaInicios:
+			mutacionElegida=new CambiaInicios();
 			break;
 		}
 		this.mutacion = mutacion;

@@ -6,6 +6,7 @@ import cruces.OXorden;
 import cruces.PMX;
 import logica.Cromosoma;
 import logica.CromosomaCiudades;
+import mutaciones.CambiaInicios;
 import mutaciones.Inversion;
 import mutaciones.Mutacion;
 
@@ -29,9 +30,11 @@ public class pruebas {
 		}
 		System.out.println();
 		
-		Cruce c=new CodOrd();
-		c.cruza(a,b);
-		//c.muta(b);
+		//Cruce c=new CodOrd();
+		Mutacion c= new CambiaInicios();
+		//c.cruza(a,b);
+		c.muta(a);
+		c.muta(b);
 		
 
 		
