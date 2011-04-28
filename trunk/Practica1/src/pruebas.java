@@ -2,6 +2,7 @@ import cruces.CX;
 import cruces.CodOrd;
 import cruces.Cruce;
 import cruces.OX;
+import cruces.OXDesplazado;
 import cruces.OXorden;
 import cruces.PMX;
 import logica.Cromosoma;
@@ -30,11 +31,11 @@ public class pruebas {
 		}
 		System.out.println();
 		
-		//Cruce c=new CodOrd();
-		Mutacion c= new CambiaInicios();
-		//c.cruza(a,b);
-		c.muta(a);
-		c.muta(b);
+		Cruce c=new OXDesplazado();
+		//Mutacion c= new CambiaInicios();
+		c.cruza(a,b);
+		//c.muta(a);
+		//c.muta(b);
 		
 
 		
