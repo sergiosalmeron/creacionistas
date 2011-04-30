@@ -34,7 +34,7 @@ public class Insercion implements Mutacion{
 			max=min;
 			min=auxi;
 		}
-		//System.out.println("el elemento de la pos "+max+" va a la pos "+min);
+		
 		int aux=c.getGen(max);
 		for (int i=max;i>min;i--){
 			c.setGen(i, c.getGen(i-1));
