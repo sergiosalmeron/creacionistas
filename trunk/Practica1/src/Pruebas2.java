@@ -31,7 +31,12 @@ public class Pruebas2 {
 			System.out.println("esto no tira");
 		}*/
 		
+		int contador=0;
+		boolean erroneo=false;
 		
+while ((contador<100)&&(!erroneo)){
+			
+
 		
 		Cromosoma a=new CromosomaCiudades();
 		Cromosoma b=new CromosomaCiudades();
@@ -65,6 +70,8 @@ public class Pruebas2 {
 		}
 		System.out.println();
 		c.muestraPosiciones();
+		System.out.println();
+		System.out.println("----------------------------------------------");
 		
 		ArrayList<Integer> aa=new ArrayList<Integer>();
 		ArrayList<Integer> bb=new ArrayList<Integer>();
@@ -77,15 +84,19 @@ public class Pruebas2 {
 			if (aa.contains(a.getGen(i))){
 				aa.remove((Object)a.getGen(i));
 			}
-			else
+			else{
+				erroneo=true;
 				System.err.println("elemento de a repetido: "+a.getGen(i));
+			}
 			
 			
 			if (bb.contains(b.getGen(i))){
 				bb.remove((Object)b.getGen(i));
 			}
-			else
+			else{
+				erroneo=true;
 				System.err.println("elemento de b repetido: "+b.getGen(i));
+			}
 		}
 		
 		//c.muestraTabla();
@@ -98,6 +109,7 @@ public class Pruebas2 {
 		c.cruza(a, b);*/
 		//Heuristica b=new Heuristica();
 	//	b.muta(a);
+}		
 		
 	}
 	
