@@ -7,7 +7,7 @@ import logica.Cromosoma;
 
 public class Heuristica implements Mutacion {
 
-	private final int numMaxPosicionesPermutables=5;
+	private final int numMaxPosicionesPermutables=6;
 	private int numPosiciones;
 	public int getNumPosiciones() {
 		return numPosiciones;
@@ -19,13 +19,25 @@ public class Heuristica implements Mutacion {
 	public void muta(Cromosoma c) {
 		r=new Random();
 		numPosiciones=r.nextInt(numMaxPosicionesPermutables-1)+2;
+		//numPosiciones=6;
 //System.out.println("num de posiciones a permutar: "+numPosiciones);
 		ArrayList<Integer> posiciones=eligePosiciones(c.getLongCromosoma());
-		c=perMutacionMejor(c, posiciones);
+		Cromosoma solu=perMutacionMejor(c, posiciones);
+		guardaSolucion(c,solu, posiciones);
 	}
 	
 	
 	
+	private void guardaSolucion(Cromosoma c, Cromosoma solu, ArrayList<Integer> posiciones) {
+		for (int i=0;i<posiciones.size();i++){
+			int posicion=posiciones.get(i);
+			c.setGen(posicion, solu.getGen(posicion));
+		}
+		
+	}
+
+
+
 	private ArrayList<Integer> eligePosiciones(int posiciones) {
 		ArrayList<Integer> resultado=new ArrayList<Integer>();
 		int candidato;
