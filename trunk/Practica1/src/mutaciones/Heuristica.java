@@ -7,12 +7,15 @@ import logica.Cromosoma;
 
 public class Heuristica implements Mutacion {
 
-	private final int numPosiciones=3;
+	private final int numMaxPosicionesPermutables=5;
+	private int numPosiciones;
 	private Random r;
 	
 	@Override
 	public void muta(Cromosoma c) {
 		r=new Random();
+		numPosiciones=r.nextInt(numMaxPosicionesPermutables)+1;
+//System.out.println("num de posiciones a permutar: "+numPosiciones);
 		ArrayList<Integer> posiciones=eligePosiciones(c.getLongCromosoma());
 		c=perMutacionMejor(c, posiciones);
 	}
@@ -53,6 +56,7 @@ public class Heuristica implements Mutacion {
 //}
 //System.out.println();
 //System.out.println(solu.evalua());
+
 			if (solu.evalua()<mejorResultado){
 				mejorResultado=solu.getAptitud();
 				mejorElemento=i;
