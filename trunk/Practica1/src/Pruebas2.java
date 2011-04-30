@@ -19,7 +19,11 @@ public class Pruebas2 {
 	 */
 	public static void main(String[] args) {
 		
-		pruebaHeuristica();
+		for (int i=0;i<100;i++){
+			pruebaHeuristica();
+			//pruebaOXPosiciones();
+		}
+		System.out.println("finnnn");
 		
 		
 	}
@@ -30,18 +34,22 @@ public class Pruebas2 {
 		for (int i=0;i<a.getLongCromosoma();i++){
 			System.out.print(String.format("%3d", a.getGen(i))+",");
 		}
+		System.out.println();
 		
 		Heuristica b=new Heuristica();
 		
 		b.muta(a);
 		
+		System.out.println("Posiciones a permutar: "+b.getNumPosiciones());
+		System.out.print("Sol:");
 		for (int i=0;i<a.getLongCromosoma();i++){
 			System.out.print(String.format("%3d", a.getGen(i))+",");
 		}
+		System.out.println();
 		
 	}
 	
-	private void pruebaOXPosiciones(){
+	private static void pruebaOXPosiciones(){
 		int contador=0;
 		boolean erroneo=false;
 		

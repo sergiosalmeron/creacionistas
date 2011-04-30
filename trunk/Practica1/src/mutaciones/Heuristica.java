@@ -9,12 +9,16 @@ public class Heuristica implements Mutacion {
 
 	private final int numMaxPosicionesPermutables=5;
 	private int numPosiciones;
+	public int getNumPosiciones() {
+		return numPosiciones;
+	}
+
 	private Random r;
 	
 	@Override
 	public void muta(Cromosoma c) {
 		r=new Random();
-		numPosiciones=r.nextInt(numMaxPosicionesPermutables)+1;
+		numPosiciones=r.nextInt(numMaxPosicionesPermutables-1)+2;
 //System.out.println("num de posiciones a permutar: "+numPosiciones);
 		ArrayList<Integer> posiciones=eligePosiciones(c.getLongCromosoma());
 		c=perMutacionMejor(c, posiciones);
