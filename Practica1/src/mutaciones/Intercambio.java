@@ -22,7 +22,6 @@ public class Intercambio implements Mutacion{
 		int b=r.nextInt(longi);
 		while(a==b)
 			b=r.nextInt(longi);
-		System.out.println("el elemento de la pos "+a+" va a la pos "+b);
 		int aux=c.getGen(a);
 		c.setGen(a, c.getGen(b));
 		c.setGen(b, aux);

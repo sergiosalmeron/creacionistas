@@ -38,9 +38,6 @@ public class PMX implements Cruce{
 			pos1=pos2;
 			pos2=aux;
 		}
-		
-		System.out.println("pos1= "+pos1);
-		System.out.println("pos2= "+pos2);
 	}
 	
 	private void intercambia(Cromosoma padre, Cromosoma madre){

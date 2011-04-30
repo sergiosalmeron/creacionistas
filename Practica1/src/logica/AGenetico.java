@@ -21,6 +21,7 @@ import cruces.Cruce;
 import cruces.CruceEnum;
 import cruces.OX;
 import cruces.OXDesplazado;
+import cruces.OXPosciciones;
 import cruces.OXorden;
 import cruces.PMX;
 import cruces.RecombRutas;
@@ -63,9 +64,9 @@ public class AGenetico {
 
 	public AGenetico() {
 		this.tamPob = 100;
-		this.numMaxGen = 100;
+		this.numMaxGen = 200;
 		this.probCruce = 0.4;
-		this.probMutacion = 0.05;
+		this.probMutacion = 0.075;
 		this.tamElite = 0;
 		torneoAux = 3;
 		beta=3;
@@ -557,6 +558,9 @@ public class AGenetico {
 			break;
 		case OX:
 			cruceElegido=new OX();
+			break;
+		case OXposiciones:
+			cruceElegido=new OXPosciciones();
 			break;
 		case OXorden:
 			cruceElegido=new OXorden();
