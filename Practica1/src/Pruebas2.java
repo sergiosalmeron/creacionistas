@@ -18,18 +18,28 @@ public class Pruebas2 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-		for (int i=0;i<100;i++){
-			pruebaHeuristica();
-			//pruebaOXPosiciones();
+		int i=0;
+		boolean erroneo=false;
+		while ((i<500)&&(!erroneo)){
+			//erroneo=pruebaHeuristica();
+			erroneo=pruebaOXPosiciones();
+			i++;
 		}
 		System.out.println("finnnn");
 		
 		
 	}
 	
-	private static void pruebaHeuristica(){
+	private static boolean pruebaHeuristica(){
+		
 		Cromosoma a=new CromosomaCiudades();
+		
+		System.out.print("Xxxxx:");
+		for (int i=0;i<a.getLongCromosoma();i++){
+			System.out.print(String.format("%3d", i)+",");
+		}
+		System.out.println();
+		
 		System.out.print("Cromo:");
 		for (int i=0;i<a.getLongCromosoma();i++){
 			System.out.print(String.format("%3d", a.getGen(i))+",");
@@ -41,22 +51,16 @@ public class Pruebas2 {
 		b.muta(a);
 		
 		System.out.println("Posiciones a permutar: "+b.getNumPosiciones());
-		System.out.print("Sol:");
+		System.out.print("Sol:  ");
 		for (int i=0;i<a.getLongCromosoma();i++){
 			System.out.print(String.format("%3d", a.getGen(i))+",");
 		}
 		System.out.println();
+		return compruebaRepetidos(a);
 		
 	}
 	
-	private static void pruebaOXPosiciones(){
-		int contador=0;
-		boolean erroneo=false;
-		
-		while ((contador<100)&&(!erroneo)){
-			
-
-		
+	private static boolean pruebaOXPosiciones(){
 			Cromosoma a=new CromosomaCiudades();
 			Cromosoma b=new CromosomaCiudades();
 			System.out.print("Xxxxx:");
@@ -92,31 +96,7 @@ public class Pruebas2 {
 			System.out.println();
 			System.out.println("----------------------------------------------");
 			
-			ArrayList<Integer> aa=new ArrayList<Integer>();
-			ArrayList<Integer> bb=new ArrayList<Integer>();
-			for (int i=0;i<b.getLongCromosoma();i++){
-				aa.add(i+1);
-				bb.add(i+1);
-			}
-			
-			for (int i=0;i<b.getLongCromosoma();i++){
-				if (aa.contains(a.getGen(i))){
-					aa.remove((Object)a.getGen(i));
-				}
-				else{
-					erroneo=true;
-					System.err.println("elemento de a repetido: "+a.getGen(i));
-				}
-				
-				
-				if (bb.contains(b.getGen(i))){
-					bb.remove((Object)b.getGen(i));
-				}
-				else{
-					erroneo=true;
-					System.err.println("elemento de b repetido: "+b.getGen(i));
-				}
-			}
+			return compruebaRepetidos(a) && compruebaRepetidos(b);
 		
 		//c.muestraTabla();
 		
@@ -128,7 +108,27 @@ public class Pruebas2 {
 		c.cruza(a, b);*/
 		//Heuristica b=new Heuristica();
 	//	b.muta(a);
+		
+	}
+	
+	private static boolean compruebaRepetidos(Cromosoma a){
+		ArrayList<Integer> aa=new ArrayList<Integer>();
+		boolean erroneo=false;
+		for (int i=0;i<a.getLongCromosoma();i++){
+			aa.add(i+1);
 		}
+		
+		for (int i=0;i<a.getLongCromosoma();i++){
+			if (aa.contains(a.getGen(i))){
+				aa.remove((Object)a.getGen(i));
+			}
+			else{
+				erroneo=true;
+				System.err.println("elemento de a repetido: "+a.getGen(i));
+			}
+
+		}
+		return erroneo;
 	}
 	
 	
