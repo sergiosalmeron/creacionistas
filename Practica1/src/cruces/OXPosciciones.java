@@ -34,10 +34,12 @@ public class OXPosciciones implements Cruce {
 		Random r = new Random();
 		int numPos=r.nextInt(padre.getLongCromosoma())+1;
 		pos=new int[numPos];
+		for (int i=0;i<numPos;i++)
+			pos[i]=-1;
 		int posic;
 		int maxPos=0;
-		if (numPos==padre.getLongCromosoma())
-			numPos--;
+	//	if (numPos==padre.getLongCromosoma())
+	//		numPos--;
 		for (int i=0;i<numPos;i++){
 			posic=r.nextInt(padre.getLongCromosoma());
 			while (contiene(posic, pos))
