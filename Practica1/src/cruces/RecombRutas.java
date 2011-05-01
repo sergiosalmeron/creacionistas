@@ -27,7 +27,7 @@ public class RecombRutas implements Cruce{
 			hija[i]=-1;
 		}
 		creaTablaAdy(padre, madre);
-		muestraTabla();
+		//muestraTabla();
 		generaDescendencia(hijo, madre.getGen(0));
 		generaDescendencia(hija, padre.getGen(0));
 		finaliza(padre,madre,hijo,hija);
@@ -188,17 +188,17 @@ public class RecombRutas implements Cruce{
 		
 	}
 	
-	public void muestraTabla(){
-		for (int i=1;i<=27;i++){
-			System.out.print( String.format("%3d",i) + ": ");
-			ArrayList<Integer> a=valoresAdy.get(i);
-			for (int j=0;j<a.size();j++){
-				int b=a.get(j);
-				System.out.print( String.format("%3d",b) + ", ");
-			}
-			System.out.println();
-		}
-	}
+//	public void muestraTabla(){
+//		for (int i=1;i<=27;i++){
+//			System.out.print( String.format("%3d",i) + ": ");
+//			ArrayList<Integer> a=valoresAdy.get(i);
+//			for (int j=0;j<a.size();j++){
+//				int b=a.get(j);
+//				System.out.print( String.format("%3d",b) + ", ");
+//			}
+//			System.out.println();
+//		}
+//	}
 	
 	/*private void creaTablaAdy(Cromosoma padre, Cromosoma madre) {
 	int longitud=padre.getLongCromosoma();
