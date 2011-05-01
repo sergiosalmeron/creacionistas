@@ -40,6 +40,7 @@ public class AGenetico {
 	//private double tolerancia;
 	// private int generacionActual = 0;
 	private double mediaPoblacion = 0;
+	
 
 
 	
@@ -47,7 +48,7 @@ public class AGenetico {
 	private Seleccion seleccion;
 	private boolean maximizar;
 	private int torneoAux;
-	private int beta;
+	private double beta;
 	// elite
 	private int tamElite = 0;
 	private Cromosoma[] elite;
@@ -59,6 +60,9 @@ public class AGenetico {
 	//mutaciones
 	private MutaEnum mutacion;
 	private Mutacion mutacionElegida;
+	//mejoras
+	private EnumMejoras mejora;
+	private int limiteContractividad;
 
 	// Constructora //////////////////////////////////////////////////////
 
@@ -69,9 +73,10 @@ public class AGenetico {
 		this.probMutacion = 0.075;
 		this.tamElite = 0;
 		torneoAux = 3;
-		beta=3;
+		beta=1;
 		pob = new Cromosoma[tamPob];
 		comp = new ComparadorCromos();
+		limiteContractividad=10;
 		maximizar=false;
 	}
 
@@ -543,11 +548,11 @@ public class AGenetico {
 		return elMejor;
 	}
 
-	public void setBeta(int beta) {
+	public void setBeta(double beta) {
 		this.beta = beta;
 	}
 
-	public int getBeta() {
+	public double getBeta() {
 		return beta;
 	}
 
@@ -608,6 +613,22 @@ public class AGenetico {
 
 	public MutaEnum getMutacion() {
 		return mutacion;
+	}
+	
+	public void setMejora(EnumMejoras mejora) {
+		this.mejora = mejora;
+	}
+
+	public EnumMejoras getMejora() {
+		return mejora;
+	}
+	
+	public void setLimiteContractividad(int limite) {
+		this.limiteContractividad = limite;
+	}
+
+	public int getLimiteContractividad() {
+		return limiteContractividad;
 	}
 
 }

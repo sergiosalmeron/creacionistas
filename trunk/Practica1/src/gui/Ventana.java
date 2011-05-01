@@ -33,6 +33,7 @@ import logica.Distancias;
 import logica.Seleccion;
 import cruces.CruceEnum;
 import mutaciones.MutaEnum;
+import logica.EnumMejoras;
 
 public class Ventana extends JFrame{
 	/**
@@ -107,7 +108,28 @@ public class Ventana extends JFrame{
 				if (datosOK){
 				datos=new DatosGrafica(aG.getNumMaxGen());
 				aG.inicializa();
-				for (int i=0; i<aG.getNumMaxGen(); i++){
+				int generacionActual=0;
+				double mediaAnterior=Double.MAX_VALUE;
+				int generacionFail=0;
+				while (generacionActual<aG.getNumMaxGen()){
+					aG.evaluarPoblacion();
+					if (aG.getMediaPoblacion()<mediaAnterior || generacionFail>=aG.getLimiteContractividad() || aG.getMejora()==EnumMejoras.Ninguna){
+						mediaAnterior=aG.getMediaPoblacion();
+						generacionActual++;
+						generacionFail=0;
+						datos.addDato(aG.getElMejor(), aG.getMejorLocal(), aG.getMediaPoblacion());
+					}	
+					else
+						generacionFail++;
+					if (aG.usaElite())
+						aG.apartaElementosElite();
+					aG.seleccion();
+					aG.reproduccion();
+					aG.mutacion();
+					if (aG.usaElite())
+						aG.reinsertaElementosElite();
+				}
+				/*for (int i=0; i<aG.getNumMaxGen(); i++){
 					aG.evaluarPoblacion();
 					datos.addDato(aG.getElMejor(), aG.getMejorLocal(), aG.getMediaPoblacion());
 					if (aG.usaElite())
@@ -117,7 +139,7 @@ public class Ventana extends JFrame{
 					aG.mutacion();
 					if (aG.usaElite())
 						aG.reinsertaElementosElite();
-				}
+				}*/
 				grafica();
 				}
 			}
@@ -183,23 +205,23 @@ public class Ventana extends JFrame{
 			    "Mutación",							 
 			    "Tipo de mutación de nuestro algoritmo", 					 
 			    "mutacion",   							 
-			    MutaEnum.values()));
-			    /*.addOption(new ChoiceOption<AGenetico>(	 
-			    "Función",							 
-			    "Función que queremos probar", 					 
-			    "funcion",   							 
-			    Funcion.values()));
+			    MutaEnum.values()))
+			    .addOption(new ChoiceOption<AGenetico>(	 
+			    "Mejoras",							 
+			    "Mejoras adicionales", 					 
+			    "mejora",   							 
+			    EnumMejoras.values()));
 		config.beginInner(new InnerOption<AGenetico, AGenetico>( 
-			  	"opciones para Funcion 4", "opciones de la funcion 4", 
-			  	"funcion", Funcion.class) {
+			  	"Opciones de Contractividad", "opciones para la contractividad", 
+			  	"mejora", EnumMejoras.class) {
 					public AGenetico inner(AGenetico target) {
-						return (target.getFuncion() == Funcion.F4) ? target : null;
+						return (target.getMejora() == EnumMejoras.Contractividad) ? target : null;
 					}
 				 })
 		  		  .addInner(new IntegerOption<AGenetico>(
-		  		     "Variable n", "numero de variables", "f4Aux", 1, Integer.MAX_VALUE))
+		  		     "Limite de generaciones", "generaciones máximas sin mejora de la media", "limiteContractividad", 1, Integer.MAX_VALUE))
 		  		  .endInner();
-				*/
+				
 		config.addOption(new ChoiceOption<AGenetico>(	 
 			    "Selección",							 
 			    "Tipo de selección de nuestro algoritmo", 					 
@@ -222,9 +244,11 @@ public class Ventana extends JFrame{
 						return (target.getSeleccion() == Seleccion.Ranking) ? target : null;
 					}
 				 })
-		  		  .addInner(new IntegerOption<AGenetico>(
-		  		     "Valor de Beta", "Valor a la variable Beta", "beta", 1, 3))
+		  		  .addInner(new DoubleOption<AGenetico>(
+		  		     "Valor de Beta", "Valor a la variable Beta", "beta", 1, 2))
 		  		  .endInner()
+		  
+		 
 			    
 				
 		
