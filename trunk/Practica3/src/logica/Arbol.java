@@ -1,9 +1,15 @@
 package logica;
 
+import java.util.ArrayList;
+
+import com.sun.java.swing.plaf.motif.resources.motif;
+
 public class Arbol {
 	public static int MAX_PROFUNDIDAD = 3;
 	public static boolean INICIALIZACION_COMPLETA = false;
 	public static double PROB_BAJAR_NODO = 0.6;
+	
+	private final Character[] universal={'U','N','I','V','E','R','S','A','L'};
 	
 	private static double[] profundidadesGauss;
 	
@@ -303,6 +309,156 @@ public class Arbol {
 		for (int i = 0; i < getCantHijos(); i++) {
 			hijos[i].setProfundidadRecursivo(profundidad + 1);
 		}
+	}
+	
+	public int getEvaluacion(){
+		return 0;
+	}
+	
+	private boolean evaluaCadena(String cadena){
+		ArrayList<Character> mesa=new ArrayList<Character>();
+		ArrayList<Character> pila=new ArrayList<Character>();
+		boolean limite=false;
+		for (int i=0;i<cadena.length()-1;i++){
+			char a=cadena.charAt(i);
+			if (a=='*')
+				limite=true;
+			else{
+				if (!limite)
+					mesa.add(a);
+				else
+					pila.add(a);
+			}
+		}
+		
+		
+		
+		
+		
+		return false;
+	}
+	
+	private boolean evalua(ArrayList<Character> pila, ArrayList<Character> mesa){
+		boolean resultado=false;
+		switch (tipo){
+		case MP:
+			resultado=procesaMP(pila, mesa);
+			break;
+		}
+		return resultado;
+	}
+	
+	private boolean procesaMP(ArrayList<Character> pila, ArrayList<Character> mesa){
+		boolean resultado=false;
+		if ( (hijos.length==1) && (hijos[0].tipo==Tipo.SN) ){
+			Character sn=getSN(pila);
+			if (mesa.contains(sn)){
+				pila.add(sn);
+				mesa.remove(sn);
+				resultado=true;
+			}
+		}
+		return resultado;
+	}
+	
+	private boolean procesaMM(ArrayList<Character> pila, ArrayList<Character> mesa){
+		boolean resultado=false;	
+		if ( (hijos.length==1)){
+			boolean mover=false;
+			switch (hijos[0].tipo){
+			case SN:
+				Character a=getSN(pila);
+				if ((a!=null)&&(pila.contains(a)));
+					mover=true;
+				break;
+			case CP:
+				Character b=getCP(pila);
+				if ((b!=null)&&(pila.contains(b)));
+					mover=true;
+				break;
+			case BS:
+				Character c=getBS(pila);
+				if ((c!=null)&&(pila.contains(c)));
+					mover=true;
+				break;
+			}
+			if ((mover)&&(pila.size()>0)){
+				mesa.add(getCP(pila));
+				pila.remove(pila.size()-1);
+				resultado=true;
+			}
+		}
+		return resultado;
+	}
+	
+	private boolean procesaNOT(ArrayList<Character> pila, ArrayList<Character> mesa){	
+		if ( (hijos.length==1)){
+			if(Tipo.isTerminal(hijos[0].tipo)){
+				return true;
+			}
+			else
+				return !hijos[0].evalua(pila, mesa);
+		}
+		else
+			return false;
+	}
+	
+	private boolean procesaEQ(ArrayList<Character> pila, ArrayList<Character> mesa){
+		if ( (hijos.length==2)){
+			boolean hijoIzq=false;
+			if(Tipo.isFuncion(hijos[0].tipo)){
+				hijoIzq=hijos[0].evalua(pila, mesa);
+			}
+			boolean hijoDer=false;
+			if(Tipo.isFuncion(hijos[1].tipo)){
+				hijoDer=hijos[1].evalua(pila, mesa);
+			}
+			return hijoDer==hijoIzq;
+		}
+		else
+			return false;
+	}
+	
+
+	private Character getCP(ArrayList<Character> pila){
+		if (pila.size()>0)
+			return pila.get(pila.size()-1);
+		else
+			return null;
+	}
+	
+	private Character getBS(ArrayList<Character> pila){
+		int posRes=getPosBS(pila);
+		if (posRes<0)
+			return null;
+		else
+			return universal[posRes];
+	}
+	
+	private int getPosBS(ArrayList<Character> pila){
+		if (pila.size()<=0)
+			return -1;
+		else{
+			int posRes=-1;
+			for (int i=0;i<pila.size();i++){
+				if ((universal[i]!=pila.get(i))&&(posRes==-1)){
+					posRes=i;
+				}
+			}
+			if (posRes<=0)
+				return -1;
+			else
+				return posRes-1;
+		}
+	}
+	
+	private Character getSN(ArrayList<Character> pila){
+		int posRes=getPosBS(pila);
+		posRes++;
+		if (posRes>universal.length)
+			return null;
+		else
+			return universal[posRes];
 	}
 
 }
