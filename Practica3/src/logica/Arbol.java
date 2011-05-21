@@ -12,6 +12,7 @@ public class Arbol {
 	private final Character[] universal={'U','N','I','V','E','R','S','A','L'};
 	
 	private static double[] profundidadesGauss;
+	private static final int limiteIteracionesDU=10;
 	
 	private Tipo tipo;
 	private int profundidad;
@@ -315,7 +316,7 @@ public class Arbol {
 		return 0;
 	}
 	
-	private boolean evaluaCadena(String cadena){
+	public boolean evaluaCadena(String cadena){
 		ArrayList<Character> mesa=new ArrayList<Character>();
 		ArrayList<Character> pila=new ArrayList<Character>();
 		boolean limite=false;
@@ -324,18 +325,32 @@ public class Arbol {
 			if (a=='*')
 				limite=true;
 			else{
-				if (!limite)
-					mesa.add(a);
-				else
-					pila.add(a);
+				if(a!=' '){
+					if (!limite)
+						mesa.add(a);
+					else
+						pila.add(a);
+				}
+				
 			}
 		}
+		System.out.println("Pila antes: "+ pila);
+		System.out.println("Mesa antes: "+mesa);
+		evalua(pila, mesa);
+		System.out.println("Pila después: "+ pila);
+		System.out.println("Mesa después: "+mesa);
+		boolean resultado=true;
+		if (pila.size()==universal.length)
+			for (int i=0;i<universal.length;i++){
+				if (universal[i]!=pila.get(i))
+					resultado=false;
+			}
+		else
+			resultado=false;
 		
 		
 		
-		
-		
-		return false;
+		return resultado;
 	}
 	
 	private boolean evalua(ArrayList<Character> pila, ArrayList<Character> mesa){
@@ -343,6 +358,18 @@ public class Arbol {
 		switch (tipo){
 		case MP:
 			resultado=procesaMP(pila, mesa);
+			break;
+		case MM:
+			resultado=procesaMM(pila, mesa);
+			break;
+		case DU:
+			resultado=procesaDU(pila, mesa);
+			break;
+		case NOT:
+			resultado=procesaNOT(pila, mesa);
+			break;
+		case EQ:
+			resultado=procesaEQ(pila, mesa);
 			break;
 		}
 		return resultado;
@@ -388,6 +415,28 @@ public class Arbol {
 				resultado=true;
 			}
 		}
+		return resultado;
+	}
+	
+	private boolean procesaDU(ArrayList<Character> pila, ArrayList<Character> mesa){
+		boolean resultado=false;
+		int iteraciones=0;
+		if (hijos.length==2){
+			if (Tipo.isFuncion(hijos[0].getTipo())){
+				hijos[0].evalua(pila, mesa);
+				iteraciones++;
+			}
+			resultado=hijos[1].evalua(pila, mesa);
+			while ((!resultado)&&(iteraciones<limiteIteracionesDU)){
+				if (Tipo.isFuncion(hijos[0].getTipo()))
+					hijos[0].evalua(pila, mesa);
+				iteraciones++;
+				resultado=hijos[1].evalua(pila, mesa);
+			}
+			return resultado;
+		}
+		
+		
 		return resultado;
 	}
 	
@@ -453,12 +502,29 @@ public class Arbol {
 	}
 	
 	private Character getSN(ArrayList<Character> pila){
-		int posRes=getPosBS(pila);
+		int posRes=getOrdinalUniversal(getBS(pila));
 		posRes++;
-		if (posRes>universal.length)
+		if (posRes>=universal.length)
 			return null;
 		else
 			return universal[posRes];
 	}
+	
+	private int getOrdinalUniversal(char a){
+		boolean encontrado=false;
+		int i=0;
+		while((!encontrado)&&(i<universal.length)){
+			if (a==universal[i])
+				encontrado=true;
+			else
+				i++;
+		}
+		if (encontrado)
+			return i;
+		else
+			return -1;
+	}
+	
+	
 
 }
