@@ -502,12 +502,22 @@ public class Arbol {
 	}
 	
 	private Character getSN(ArrayList<Character> pila){
-		int posRes=getOrdinalUniversal(getBS(pila));
-		posRes++;
-		if (posRes>=universal.length)
-			return null;
-		else
-			return universal[posRes];
+		Character a=getBS(pila);
+		if (a!=null){
+			int posRes=getOrdinalUniversal(a);
+			posRes++;
+			if (posRes>=universal.length)
+				return null;
+			else
+				return universal[posRes];
+		}
+		else{
+			if (pila.contains(universal[0]))
+				return null;
+			else
+				return universal[0];
+		}
+			
 	}
 	
 	private int getOrdinalUniversal(char a){
