@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.sun.java.swing.plaf.motif.resources.motif;
 
 public class Arbol {
-	public static int MAX_PROFUNDIDAD = 3;
+	public static int MAX_PROFUNDIDAD = 5;
 	public static boolean INICIALIZACION_COMPLETA = false;
 	public static double PROB_BAJAR_NODO = 0.6;
 	
@@ -19,18 +19,27 @@ public class Arbol {
 	private Arbol padre;
 	private Arbol[] hijos;
 	
+	private boolean valorBooleanoTerminal=true;
 	
 	
+	//(Math.random() < Tipo.PROB_TERMINAL) 
 	// devuelve un (nuevo) arbol aleatorio con el valor de profundidad traspasado
 	// asi la profundidad verdadera del arbol es: (MAX_PROFUNDIDAD - profundidad)
-	public static Arbol getRandArbol(int profundidad) {
-		if (( !INICIALIZACION_COMPLETA && (Math.random() < Tipo.PROB_TERMINAL) )
-				|| profundidad == MAX_PROFUNDIDAD)
+	public static Arbol getRandArbol(int profundidad, Tipo padre) {
+		if ( profundidad == MAX_PROFUNDIDAD )
 			return getRandHoja(profundidad);  // terminal
 		
 		// else funcion:
 		Arbol retVal = new Arbol();
 		Arbol[] hijos;
+		if (padre!=null){
+			if ((padre==Tipo.MP)||(padre==Tipo.MM))
+				return getRandHoja(profundidad);
+		}
+		
+		if (Math.random() < Tipo.PROB_TERMINAL) 
+			return getRandHoja(profundidad);
+		
 		Tipo tipo = Tipo.getRandFuncion();
 		
 		retVal.setProfundidad(profundidad);
@@ -38,7 +47,7 @@ public class Arbol {
 		hijos = new Arbol[Tipo.getCantHijosDeTipo(tipo)];
 		
 		for (int i = 0; i < hijos.length; i++) {
-			hijos[i] = getRandArbol(profundidad + 1);
+			hijos[i] = getRandArbol(profundidad + 1, tipo);
 		}
 		retVal.setHijos(hijos);
 		
@@ -98,7 +107,7 @@ public class Arbol {
 		}
 		// anade hijos nuevos (si hay demasiado poco viejos)
 		for (; i < hijosNuevos.length; i++) {
-			hijosNuevos[i] = getRandArbol(profundidad + 1);
+			hijosNuevos[i] = getRandArbol(profundidad + 1, tipoNuevo);
 		}
 		
 		setTipo(tipoNuevo);
@@ -313,7 +322,14 @@ public class Arbol {
 	}
 	
 	public int getEvaluacion(){
-		return 0;
+		int eval=0;
+		String caso;
+		for (int i=0; i<Casos.getNumCasos(); i++){
+			caso=Casos.getCaso(i);
+			if (evaluaCadena(caso))
+				eval++;
+		}
+		return eval;
 	}
 	
 	public boolean evaluaCadena(String cadena){
@@ -334,11 +350,11 @@ public class Arbol {
 				
 			}
 		}
-		System.out.println("Pila antes: "+ pila);
-		System.out.println("Mesa antes: "+mesa);
+	//	System.out.println("Pila antes: "+ pila);
+	//	System.out.println("Mesa antes: "+mesa);
 		evalua(pila, mesa);
-		System.out.println("Pila después: "+ pila);
-		System.out.println("Mesa después: "+mesa);
+	//	System.out.println("Pila después: "+ pila);
+	//	System.out.println("Mesa después: "+mesa);
 		boolean resultado=true;
 		if (pila.size()==universal.length)
 			for (int i=0;i<universal.length;i++){
@@ -370,6 +386,24 @@ public class Arbol {
 			break;
 		case EQ:
 			resultado=procesaEQ(pila, mesa);
+			break;
+		case CP:
+			if (getCP(pila)!=null)
+				resultado=valorBooleanoTerminal;
+			else
+				resultado=false;
+			break;
+		case BS:
+			if (getBS(pila)!=null)
+				resultado=valorBooleanoTerminal;
+			else
+				resultado=false;
+			break;
+		case SN:
+			if (getSN(pila)!=null)
+				resultado=valorBooleanoTerminal;
+			else
+				resultado=false;
 			break;
 		}
 		return resultado;
@@ -442,11 +476,7 @@ public class Arbol {
 	
 	private boolean procesaNOT(ArrayList<Character> pila, ArrayList<Character> mesa){	
 		if ( (hijos.length==1)){
-			if(Tipo.isTerminal(hijos[0].tipo)){
-				return true;
-			}
-			else
-				return !hijos[0].evalua(pila, mesa);
+			return !hijos[0].evalua(pila, mesa);
 		}
 		else
 			return false;
@@ -454,15 +484,7 @@ public class Arbol {
 	
 	private boolean procesaEQ(ArrayList<Character> pila, ArrayList<Character> mesa){
 		if ( (hijos.length==2)){
-			boolean hijoIzq=false;
-			if(Tipo.isFuncion(hijos[0].tipo)){
-				hijoIzq=hijos[0].evalua(pila, mesa);
-			}
-			boolean hijoDer=false;
-			if(Tipo.isFuncion(hijos[1].tipo)){
-				hijoDer=hijos[1].evalua(pila, mesa);
-			}
-			return hijoDer==hijoIzq;
+			return hijos[0].evalua(pila, mesa)==hijos[1].evalua(pila, mesa);
 		}
 		else
 			return false;
@@ -489,13 +511,19 @@ public class Arbol {
 			return -1;
 		else{
 			int posRes=-1;
+			boolean limite=false;
 			for (int i=0;i<pila.size();i++){
 				if ((universal[i]!=pila.get(i))&&(posRes==-1)){
 					posRes=i;
+					limite=true;
 				}
 			}
-			if (posRes<=0)
-				return -1;
+			if (posRes<=0){
+				if (limite==true)
+					return -1;
+				else
+					return pila.size()-1;
+			}
 			else
 				return posRes-1;
 		}
