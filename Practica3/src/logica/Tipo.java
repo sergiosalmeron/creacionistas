@@ -5,7 +5,7 @@ public enum Tipo {
 	
 	 CP, BS, SN, MP, MM, DU, NOT, EQ;
 	 
-	 public static double PROB_TERMINAL = 0.25; 
+	 public static double PROB_TERMINAL = 0.09; 
 	 
 	 public static int getCantHijosDeTipo(Tipo op){
 		 if (isFuncion(op)){
