@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.sun.java.swing.plaf.motif.resources.motif;
 
 public class Arbol {
-	public static int MAX_PROFUNDIDAD = 5;
+	public static int MAX_PROFUNDIDAD = 10;
 	public static boolean INICIALIZACION_COMPLETA = false;
 	public static double PROB_BAJAR_NODO = 0.6;
 	
@@ -29,18 +29,43 @@ public class Arbol {
 		if ( profundidad == MAX_PROFUNDIDAD )
 			return getRandHoja(profundidad);  // terminal
 		
-		// else funcion:
-		Arbol retVal = new Arbol();
-		Arbol[] hijos;
+
 		if (padre!=null){
 			if ((padre==Tipo.MP)||(padre==Tipo.MM))
 				return getRandHoja(profundidad);
+			else{
+				if (profundidad == MAX_PROFUNDIDAD-1){
+					Tipo tipo;
+					if (Math.random()<0.5)
+						tipo=Tipo.MM;
+					else
+						tipo=Tipo.MP;
+					return getArbFunc(profundidad, tipo);
+				}
+				else
+					return getRandFunc(profundidad);
+			}
 		}
 		
 		if (Math.random() < Tipo.PROB_TERMINAL) 
 			return getRandHoja(profundidad);
 		
-		Tipo tipo = Tipo.getRandFuncion();
+		
+		
+		return getRandFunc(profundidad);
+	}
+	
+	public static Arbol getRandHoja(int profundidad) {
+		return new Arbol(Tipo.getRandTerminal(), null, profundidad);
+	}
+	
+	public static Arbol getRandFunc(int profundidad) {
+		return getArbFunc(profundidad, Tipo.getRandFuncion());
+	}
+	
+	public static Arbol getArbFunc(int profundidad, Tipo tipo) {
+		Arbol retVal= new Arbol();
+		Arbol[] hijos;
 		
 		retVal.setProfundidad(profundidad);
 		retVal.setTipo(tipo);
@@ -52,10 +77,6 @@ public class Arbol {
 		retVal.setHijos(hijos);
 		
 		return retVal;
-	}
-	
-	public static Arbol getRandHoja(int profundidad) {
-		return new Arbol(Tipo.getRandTerminal(), null, profundidad);
 	}
 	
 	
@@ -342,10 +363,11 @@ public class Arbol {
 				limite=true;
 			else{
 				if(a!=' '){
+					//Orden invertido!!!!
 					if (!limite)
-						mesa.add(a);
-					else
 						pila.add(a);
+					else
+						mesa.add(a);
 				}
 				
 			}
