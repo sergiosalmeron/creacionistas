@@ -8,7 +8,7 @@ import java.util.Random;
 
 public abstract class Cromosoma{
 
-	protected int[] genes;
+	protected Arbol gen;
 	protected double[] fenotipo;
 	protected double aptitud;
 	private double puntuacion;
@@ -29,22 +29,22 @@ public abstract class Cromosoma{
 		return aptitud;
 	}
 	
-	public int getGen(int i){
-		return genes[i];
+	public Arbol getGen(){
+		return gen;
 	}
 	
-	public void setGen(int pos, int valor){
-		genes[pos]=valor;
+	public void setGen(int pos, Arbol valor){
+		gen=valor;
 	}
 	
-	public void setGenes(int[] genes){
-		for (int i=0; i<this.genes.length; i++){
-			this.genes[i]=genes[i];
-		}
+	public void setGenes(Arbol valor){
+		gen=valor;
 	}
 	
 	public void mutaGen(int i){
-		genes[i]=0;
+		gen.mutacionArbol();
+		//genes[i].mutacionTerminal();
+		//genes[i].mutacionFuncional();
 	}
 	
 	public void setPuntuacion(double puntuacion){
@@ -65,14 +65,14 @@ public abstract class Cromosoma{
 	}
 	
 	public int getLongCromosoma(){
-		return genes.length;
+		return gen.getNumElementos();
 	}
 
 	/**
 	 * Función que devuelve el valor del fenotipo
 	 * @return double fenotipo
 	 */
-	public abstract int[] valorFenotipo();
+	public abstract String valorFenotipo();
 	
 	/**
 	 * Evaluador de la función del problema concreto

@@ -310,12 +310,12 @@ public class Ventana extends JFrame{
 	}
 
 	private void parteMapa() {
-		map=new JFrame();
+		/*map=new JFrame();
 		Lienzo l=new Lienzo();
 		l.setCromosoaFinal(aG.getCromosomaMejor());
 		map.setSize(800, 600);
 		map.setVisible(true);
-		map.add(l);
+		map.add(l);*/
 		
 	}
 
@@ -323,9 +323,10 @@ public class Ventana extends JFrame{
 		String aux=null;
 		aux="  Valor "+ aG.getElMejor() + " en:"+'\n';
 		area.append(aux);
-		int i=1;
-		int contador=0;
-		for (int fenotipo : aG.getCromosomaMejor().valorFenotipo())  {
+		//int i=1;
+		//int contador=0;
+		area.append(aG.getCromosomaMejor().valorFenotipo());
+		/*for (int fenotipo : aG.getCromosomaMejor().valorFenotipo())  {
 		      aux="    X"+i+"="+Distancias.CIUDADES[fenotipo];
 		      contador++;
 		      if (contador%6==0){
@@ -333,7 +334,7 @@ public class Ventana extends JFrame{
 		      }
 		      area.append(aux);
 		      i++;
-		}
+		}*/
 	}
 
 }

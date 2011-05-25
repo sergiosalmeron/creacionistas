@@ -6,7 +6,7 @@ import java.util.Random;
 import com.sun.java.swing.plaf.motif.resources.motif;
 
 public class Arbol {
-	public static int MAX_PROFUNDIDAD = 10;
+	public static int MAX_PROFUNDIDAD = 5;
 	public static boolean INICIALIZACION_COMPLETA = false;
 	public static double PROB_BAJAR_NODO = 0.6;
 	
@@ -26,6 +26,10 @@ public class Arbol {
 	//(Math.random() < Tipo.PROB_TERMINAL) 
 	// devuelve un (nuevo) arbol aleatorio con el valor de profundidad traspasado
 	// asi la profundidad verdadera del arbol es: (MAX_PROFUNDIDAD - profundidad)
+	public static Arbol getRandArbol(){
+		return getRandArbol(0, null);
+	}
+	
 	public static Arbol getRandArbol(int profundidad, Tipo padre) {
 		if ( profundidad == MAX_PROFUNDIDAD )
 			return getRandHoja(profundidad);  // terminal
@@ -344,7 +348,7 @@ public class Arbol {
 					Arbol yo=getRandArbol(this.profundidad, padre);
 					hijos=yo.hijos;
 					tipo=yo.tipo;
-					System.out.println("muto en "+(a+1));
+					//System.out.println("muto en "+(a+1));
 					//muta();
 					return -1;
 				}
@@ -357,7 +361,7 @@ public class Arbol {
 					Arbol yo=getRandArbol(this.profundidad, padre);
 					hijos=yo.hijos;
 					tipo=yo.tipo;
-					System.out.println("muto en "+(a+1));
+					//System.out.println("muto en "+(a+1));
 					return -1;
 				}
 				else{
