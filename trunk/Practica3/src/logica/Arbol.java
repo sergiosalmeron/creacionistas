@@ -143,6 +143,14 @@ public class Arbol {
 		mutaTerminal(0, b);
 	}
 	
+	public void mutacionFuncional(){
+		int a=getNumElementos()-1;
+		if (a>=1){
+			double b=Math.random()*a;
+			mutaFuncional(0, b);
+		}
+	}
+	
 	private int mutaTerminal(int a, double p){
 		if (a>=0){
 			if ((hijos==null)||(hijos.length==0)){
@@ -162,6 +170,34 @@ public class Arbol {
 					i++;
 				}
 				return b;
+			}
+		}
+		else 
+			return -1;
+		
+	}
+	
+	private int mutaFuncional(int a, double p){
+		if (a>=0){
+			if ((hijos==null)||(hijos.length==0)){
+					return a+1;
+			}	
+			else{
+				int b=a+1;
+				if (b>=p){
+					//System.out.println("muto en "+b);
+					muta();
+					return -1;
+				}
+				else{
+					int i=0;
+					while ((b>=0)&&(i<hijos.length)){
+						b=hijos[i].mutaFuncional(b,p);
+						i++;
+					}
+					return b;
+				}
+				
 			}
 		}
 		else 
