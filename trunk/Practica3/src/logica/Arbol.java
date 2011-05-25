@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.sun.java.swing.plaf.motif.resources.motif;
 
@@ -86,6 +87,111 @@ public class Arbol {
 		viejo.setHijos(nuevo.getHijos());
 		if (viejo.getProfundidad() != nuevo.getProfundidad())
 			viejo.poda();
+	}
+	
+	public void cruza(Arbol b){
+		double probabFunc=0.8;
+		ArrayList<Arbol> funsA =new ArrayList<Arbol>();
+		ArrayList<Arbol> funsB=new ArrayList<Arbol>();
+		ArrayList<Arbol> tersA = new ArrayList<Arbol>();
+		ArrayList<Arbol> tersB=new ArrayList<Arbol>();
+		this.getElemsxTipo(tersA, funsA);
+		b.getElemsxTipo(tersB, funsB);
+		Arbol aa=null;
+		Arbol bb=null;
+		if ((Math.random()<probabFunc)&&(funsA.size()>0)&&(funsB.size()>0)){
+			Random r=new Random();
+			aa=funsA.get(r.nextInt(funsA.size()));
+			bb=funsB.get(r.nextInt(funsB.size()));
+			
+		}
+		else{
+			Random r=new Random();
+			aa=tersA.get(r.nextInt(tersA.size()));
+			bb=tersB.get(r.nextInt(tersB.size()));
+		}
+		
+		if ((aa!=null)&&(bb!=null)){
+			int profA=aa.profundidad;
+			int profB=bb.profundidad;
+			Tipo tipA=aa.tipo;
+			Tipo tipB=bb.tipo;
+			Arbol[] hijA=aa.hijos;
+			Arbol[] hijB=bb.hijos;
+			aa.actualizaProfundidad(profB);
+			bb.actualizaProfundidad(profA);
+			aa.tipo=tipB;
+			bb.tipo=tipA;
+			aa.hijos=hijB;
+			bb.hijos=hijA;
+		}
+	}
+	/*
+	private void getFunciones(ArrayList<Arbol> funs){
+		if (funs==null)
+			funs=new ArrayList<Arbol>();
+		if (Tipo.isFuncion(tipo))
+			funs.add(this);
+		if (hijos!=null){
+			for (int i=0;i<hijos.length;i++){
+				hijos[i].getFunciones(funs);
+			}
+		}
+	}
+	
+	private void getTerminales(ArrayList<Arbol> ters){
+		if (ters==null)
+			ters=new ArrayList<Arbol>();
+		if (Tipo.isTerminal(tipo))
+			ters.add(this);
+		if (hijos!=null){
+			for (int i=0;i<hijos.length;i++){
+				hijos[i].getTerminales(ters);
+			}
+		}
+	}
+	*/
+	private void getElemsxTipo(ArrayList<Arbol> ters, ArrayList<Arbol> funs){
+		if (ters==null)
+			ters=new ArrayList<Arbol>();
+		if (funs==null)
+			funs=new ArrayList<Arbol>();
+		if (Tipo.isTerminal(tipo))
+			ters.add(this);
+		else
+			funs.add(this);
+		if (hijos!=null){
+			for (int i=0;i<hijos.length;i++){
+				hijos[i].getElemsxTipo(ters, funs);
+			}
+		}
+	}
+	
+	private void actualizaProfundidad(int a){
+		this.profundidad=a;
+		if (hijos!=null){
+			for (int i=0;i<hijos.length;i++){
+				hijos[i].actualizaProfundidad(a+1);
+			}
+		}
+	}
+	
+	public int getProf(int nA, int nM){
+		int m=0;
+		if(nA+1>nM)
+			m=nA+1;
+		else
+			m=nM;
+		if (hijos!=null){
+			for (int i=0;i<hijos.length;i++){
+				int m2=hijos[i].getProf(nA+1,m);
+				if (m2>m)
+					m=m2;
+			}
+			return m;
+		}
+		else
+			return nA+1;
 	}
 	
 	public static void intercambiarArboles(Arbol arbol1, Arbol arbol2) {
