@@ -90,6 +90,7 @@ public class Arbol {
 	}
 	
 	public void cruza(Arbol b){
+		int topeMAX=15;
 		double probabFunc=0.8;
 		ArrayList<Arbol> funsA =new ArrayList<Arbol>();
 		ArrayList<Arbol> funsB=new ArrayList<Arbol>();
@@ -101,9 +102,26 @@ public class Arbol {
 		Arbol bb=null;
 		if ((Math.random()<probabFunc)&&(funsA.size()>0)&&(funsB.size()>0)){
 			Random r=new Random();
-			aa=funsA.get(r.nextInt(funsA.size()));
-			bb=funsB.get(r.nextInt(funsB.size()));
-			
+			while ((aa==null)&&(funsA.size()>0)){
+				aa=funsA.get(r.nextInt(funsA.size()));
+				int antesA=aa.profundidad;
+				int despuesA=aa.getProf(0, 0);
+				while ((bb==null)&&(funsB.size()>0)){
+					bb=funsB.get(r.nextInt(funsB.size()));
+					int antesB=bb.profundidad;
+					int despuesB=bb.getProf(0, 0);
+					if ((antesA+despuesB>topeMAX)||(antesB+despuesA>topeMAX)){
+						funsB.remove(bb);
+						bb=null;
+					}
+						
+				}
+				if (bb==null){
+					funsA.remove(aa);
+					b.getElemsxTipo(tersB, funsB);
+					aa=null;
+				}
+			}
 		}
 		else{
 			Random r=new Random();
