@@ -148,19 +148,20 @@ public class Arbol {
 			if ((hijos==null)||(hijos.length==0)){
 				if(a+1>p){
 					muta();
+					//System.out.println("muto en "+(a+1));
 					return -1;
 				}
 				else
 					return a+1;
 			}	
 			else{
-				int b=a;
+				int b=a+1;
 				int i=0;
 				while ((b>=0)&&(i<hijos.length)){
 					b=hijos[i].mutaTerminal(b,p);
 					i++;
 				}
-				return b+1;
+				return b;
 			}
 		}
 		else 
