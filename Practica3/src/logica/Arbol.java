@@ -109,6 +109,83 @@ public class Arbol {
 	}
 	
 	
+	public void muta(){
+		switch (tipo){
+		case MP:
+			setTipo(Tipo.MM);
+			break;
+		case MM:
+			setTipo(Tipo.MP);
+			break;
+		case DU:
+			setTipo(Tipo.EQ);
+			break;
+		case NOT:
+			break;
+		case EQ:
+			setTipo(Tipo.DU);
+			break;
+		case CP:
+		case BS:
+		case SN:
+			Tipo tipoNuevo;
+			do {
+				   tipoNuevo = Tipo.getRandTerminal();
+				} while (this.tipo == tipoNuevo);
+			setTipo(tipoNuevo);
+			break;
+		}
+	}
+	
+	public void mutacionTerminal(){
+		int a=getNumElementos();
+		double b=Math.random()*a;
+		mutaTerminal(0, b);
+	}
+	
+	private int mutaTerminal(int a, double p){
+		if (a>=0){
+			if ((hijos==null)||(hijos.length==0)){
+				if(a+1>p){
+					muta();
+					return -1;
+				}
+				else
+					return a+1;
+			}	
+			else{
+				int b=a;
+				int i=0;
+				while ((b>=0)&&(i<hijos.length)){
+					b=hijos[i].mutaTerminal(b,p);
+					i++;
+				}
+				return b+1;
+			}
+		}
+		else 
+			return -1;
+		
+	}
+	
+	public int getNumElementos(){
+		return getNumElementos(0);
+	}
+	
+	private int getNumElementos(int a){
+		if ((hijos==null)||(hijos.length==0))
+			return a+1;
+		else{
+			int b=a;
+			for (int i=0;i<hijos.length;i++){
+				b=hijos[i].getNumElementos(b);
+			}
+			return b+1;
+		}
+		
+	}
+	
+	
 	public void cambiaFuncion() {
 		Tipo tipoNuevo;
 		do {
