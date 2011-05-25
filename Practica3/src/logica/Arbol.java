@@ -151,10 +151,18 @@ public class Arbol {
 		}
 	}
 	
+	public void mutacionArbol(){
+		int a=getNumElementos();
+		if (a>=1){
+			double b=Math.random()*a;
+			mutaArbol(0, b, null);
+		}
+	}
+	
 	private int mutaTerminal(int a, double p){
 		if (a>=0){
 			if ((hijos==null)||(hijos.length==0)){
-				if(a+1>p){
+				if(a+1>=p){
 					muta();
 					//System.out.println("muto en "+(a+1));
 					return -1;
@@ -193,6 +201,45 @@ public class Arbol {
 					int i=0;
 					while ((b>=0)&&(i<hijos.length)){
 						b=hijos[i].mutaFuncional(b,p);
+						i++;
+					}
+					return b;
+				}
+				
+			}
+		}
+		else 
+			return -1;
+		
+	}
+	
+	private int mutaArbol(int a, double p, Tipo padre){
+		if (a>=0){
+			if ((hijos==null)||(hijos.length==0)){
+				if(a+1>p){
+					Arbol yo=getRandArbol(this.profundidad, padre);
+					hijos=yo.hijos;
+					tipo=yo.tipo;
+					System.out.println("muto en "+(a+1));
+					//muta();
+					return -1;
+				}
+				else
+					return a+1;
+			}	
+			else{
+				int b=a+1;
+				if (b>=p){
+					Arbol yo=getRandArbol(this.profundidad, padre);
+					hijos=yo.hijos;
+					tipo=yo.tipo;
+					System.out.println("muto en "+(a+1));
+					return -1;
+				}
+				else{
+					int i=0;
+					while ((b>=0)&&(i<hijos.length)){
+						b=hijos[i].mutaArbol(b,p,tipo);
 						i++;
 					}
 					return b;
