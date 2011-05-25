@@ -14,6 +14,7 @@ import mutaciones.Intercambio;
 import mutaciones.Inversion;
 import mutaciones.MutaEnum;
 import mutaciones.Mutacion;
+import mutaciones.MutacionArbol;
 
 import cruces.CX;
 import cruces.CodOrd;
@@ -25,6 +26,7 @@ import cruces.OXPosciciones;
 import cruces.OXorden;
 import cruces.PMX;
 import cruces.RecombRutas;
+import cruces.cruceArbol;
 
 import utils.ComparadorCromos;
 
@@ -77,16 +79,17 @@ public class AGenetico {
 		pob = new Cromosoma[tamPob];
 		comp = new ComparadorCromos();
 		limiteContractividad=10;
-		maximizar=false;
+		maximizar=true;
 	}
 
 	// Inicialización //////////////////////////////////////////////////
 
 	public void inicializa() {
+		Casos casos=new Casos();
 		elMejor = null;
 		posMejor = -1;
 		for (int i = 0; i < tamPob; i++) {
-			pob[i]= new CromosomaCiudades();
+			pob[i]= new CromosomaArboles();
 			pob[i].evalua();
 		}
 
@@ -428,7 +431,8 @@ public class AGenetico {
 	}
 
 	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
-
+		cruceElegido=new cruceArbol();
+System.out.println("el metodo \"cruce\" de AGenetico.java tiene una linea que hay que borrar: cruceElegido=new cruceArbol();");
 		cruceElegido.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
@@ -460,6 +464,8 @@ public class AGenetico {
 			boolean mutado = false;
 			probabilidad = r.nextDouble();
 			if (probabilidad < probMutacion) {
+System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
+				mutacionElegida=new MutacionArbol();
 				mutacionElegida.muta(pob[i]);
 				mutado = true;
 			}
@@ -591,7 +597,7 @@ public class AGenetico {
 	}
 	
 	public void setMutacion(MutaEnum mutacion) {
-		switch (mutacion) {
+		/*switch (mutacion) {
 		case Inversión:
 			mutacionElegida=new Inversion();
 			break;
@@ -607,7 +613,9 @@ public class AGenetico {
 		case CambiaInicios:
 			mutacionElegida=new CambiaInicios();
 			break;
-		}
+		}*/
+System.out.println("el metodo \"setMutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
+		mutacionElegida=new MutacionArbol();
 		this.mutacion = mutacion;
 	}
 
