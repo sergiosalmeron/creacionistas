@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -29,7 +30,6 @@ import org.math.plot.Plot2DPanel;
 import utils.DatosGrafica;
 
 import logica.AGenetico;
-import logica.Distancias;
 import logica.Seleccion;
 import cruces.CruceEnum;
 import mutaciones.MutaEnum;
@@ -274,10 +274,13 @@ public class Ventana extends JFrame{
 		plot.addLinePlot("Mejor de la generación", datos.getGeneraciones(), datos.getMejorLocal());
 		plot.addLinePlot("Media", datos.getGeneraciones(), datos.getMedia());
 		
+
+		
 		JTextArea area=new JTextArea();
 		textoEtiqueta(area);
 		area.setEditable(false);
 		area.setBackground(Color.LIGHT_GRAY);
+		
 		
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
