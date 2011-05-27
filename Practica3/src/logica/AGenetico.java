@@ -7,25 +7,14 @@ package logica;
 import java.util.Arrays;
 import java.util.Random;
 
-import mutaciones.CambiaInicios;
-import mutaciones.Heuristica;
-import mutaciones.Insercion;
-import mutaciones.Intercambio;
-import mutaciones.Inversion;
+
 import mutaciones.MutaEnum;
 import mutaciones.Mutacion;
 import mutaciones.MutacionArbol;
 
-import cruces.CX;
-import cruces.CodOrd;
+
 import cruces.Cruce;
 import cruces.CruceEnum;
-import cruces.OX;
-import cruces.OXDesplazado;
-import cruces.OXPosciciones;
-import cruces.OXorden;
-import cruces.PMX;
-import cruces.RecombRutas;
 import cruces.cruceArbol;
 
 import utils.ComparadorCromos;
@@ -407,7 +396,6 @@ public class AGenetico {
 	public void reproduccion() {
 		int[] elegidos = new int[tamPob];
 		int numCruce = 0;
-		int puntCruce;
 		double probabilidad;
 		Random aleatorio = new Random();
 
@@ -419,20 +407,20 @@ public class AGenetico {
 				numCruce++;
 			}
 		}
+		
+		//System.out.println("cruzan: "+numCruce);
 
 		if ((numCruce % 2) == 1)
 			numCruce--;
 
-		// determinamos el punto de cruce
-		puntCruce = aleatorio.nextInt(pob[0].getLongCromosoma());
 		for (int i = 0; i < numCruce; i = i + 2)
-			cruce(pob[elegidos[i]], pob[elegidos[i + 1]], puntCruce);
+			cruce(pob[elegidos[i]], pob[elegidos[i + 1]]);
 
 	}
 
-	private void cruce(Cromosoma padre, Cromosoma madre, int puntCruce) {
+	private void cruce(Cromosoma padre, Cromosoma madre) {
 		cruceElegido=new cruceArbol();
-System.out.println("el metodo \"cruce\" de AGenetico.java tiene una linea que hay que borrar: cruceElegido=new cruceArbol();");
+//System.out.println("el metodo \"cruce\" de AGenetico.java tiene una linea que hay que borrar: cruceElegido=new cruceArbol();");
 		cruceElegido.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
@@ -464,7 +452,7 @@ System.out.println("el metodo \"cruce\" de AGenetico.java tiene una linea que ha
 			boolean mutado = false;
 			probabilidad = r.nextDouble();
 			if (probabilidad < probMutacion) {
-System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
+//System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
 				mutacionElegida=new MutacionArbol();
 				mutacionElegida.muta(pob[i]);
 				mutado = true;
@@ -563,7 +551,7 @@ System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que
 	}
 
 	public void setCruce(CruceEnum cruce) {
-		switch (cruce) {
+		/*switch (cruce) {
 		case PMX:
 			cruceElegido=new PMX();
 			break;
@@ -588,7 +576,7 @@ System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que
 		case OXDesplazado:
 			cruceElegido=new OXDesplazado();
 			break;
-		}
+		}*/
 		this.cruce = cruce;
 	}
 
@@ -597,24 +585,8 @@ System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que
 	}
 	
 	public void setMutacion(MutaEnum mutacion) {
-		/*switch (mutacion) {
-		case Inversión:
-			mutacionElegida=new Inversion();
-			break;
-		case Intercambio:
-			mutacionElegida=new Intercambio();
-			break;
-		case Inserción:
-			mutacionElegida=new Insercion();
-			break;
-		case Heurística:
-			mutacionElegida=new Heuristica();
-			break;
-		case CambiaInicios:
-			mutacionElegida=new CambiaInicios();
-			break;
-		}*/
-System.out.println("el metodo \"setMutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
+		
+//System.out.println("el metodo \"setMutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
 		mutacionElegida=new MutacionArbol();
 		this.mutacion = mutacion;
 	}

@@ -6,14 +6,14 @@ import java.util.Random;
 import com.sun.java.swing.plaf.motif.resources.motif;
 
 public class Arbol {
-	public static int MAX_PROFUNDIDAD = 5;
+	public static int MAX_PROFUNDIDAD = 8;
 	public static boolean INICIALIZACION_COMPLETA = false;
 	public static double PROB_BAJAR_NODO = 0.6;
 	
 	private final Character[] universal={'U','N','I','V','E','R','S','A','L'};
 	
 	private static double[] profundidadesGauss;
-	private static final int limiteIteracionesDU=10;
+	private static final int limiteIteracionesDU=2;
 	
 	private Tipo tipo;
 	private int profundidad;
@@ -94,7 +94,7 @@ public class Arbol {
 	}
 	
 	public void cruza(Arbol b){
-		int topeMAX=15;
+		int topeMAX=MAX_PROFUNDIDAD+1;
 		double probabFunc=0.8;
 		ArrayList<Arbol> funsA =new ArrayList<Arbol>();
 		ArrayList<Arbol> funsB=new ArrayList<Arbol>();
@@ -654,9 +654,9 @@ public class Arbol {
 				if(a!=' '){
 					//Orden invertido!!!!
 					if (!limite)
-						pila.add(a);
-					else
 						mesa.add(a);
+					else
+						pila.add(a);
 				}
 				
 			}
