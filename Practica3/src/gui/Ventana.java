@@ -31,7 +31,6 @@ import utils.DatosGrafica;
 
 import logica.AGenetico;
 import logica.Seleccion;
-import cruces.CruceEnum;
 import mutaciones.MutaEnum;
 import logica.EnumMejoras;
 
@@ -45,14 +44,13 @@ public class Ventana extends JFrame{
 	private boolean datosOK;
 	private JTabbedPane graficas;
 	
-	private JFrame map;
 	
 	public Ventana(){
 
-		super("Práctica 2: Grupo G07");
+		super("Práctica 3: Grupo G07");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		JPanel panelPrinc=new JPanel();///aaa
+		JPanel panelPrinc=new JPanel();
 	
 		panelPrinc.setLayout(new BorderLayout());
 		JPanel panelCentral = new JPanel(new GridLayout(4,1));
@@ -175,7 +173,22 @@ public class Ventana extends JFrame{
 			    "Num. Generaciones",							 
 			    "Numero de generaciones que se va a ejecutar el algoritmo", 					
 			    "numMaxGen",   							 
-			    1, Integer.MAX_VALUE))                            
+			    1, Integer.MAX_VALUE))
+			  .addOption(new IntegerOption<AGenetico>(	 
+			    "Máx. Profundidad Árbol Inicial",							 
+			    "Profundidad máxima que puede tener un árbol generado aleatoriamente", 					
+			    "tamArbol",   							 
+			    1, 10))  
+			  .addOption(new IntegerOption<AGenetico>(	 
+			    "Máx. Prufoundidad tras el cruce",							 
+			    "Profundidad máxima a la que puede llegar un árbol tras producirse un cruce", 					
+			    "tamCruce",   							 
+			    1, 15))
+			  .addOption(new IntegerOption<AGenetico>(	 
+			    "Núm. Máx. Iteraciones de la función DU",							 
+			    "Número máximo de iteraciones que permitimos que se ejecute la operación DU", 					
+			    "numIter",   							 
+			    1, 10))
 			  .addOption(new DoubleOption<AGenetico>(   
 			    "% Probabilidad Cruce", 					 
 			    "probabilidad de que haya cruce entre cromosomas",           
@@ -185,22 +198,17 @@ public class Ventana extends JFrame{
 			    "% Probabilidad Mutación", 					 
 			    "probabilidad de que haya mutación",          
 			    "probMutacion",                     
-			    0, 100, 100))
-			    /*.addOption(new DoubleOption<AGenetico>(   
-			    "Tolerancia", 					 
-			    "Tolerancia de la función",          
-			    "tolerancia",                     
-			    0, 1))*/						     
+			    0, 100, 100))						     
 			    .addOption(new DoubleOption<AGenetico>(   
 			    "% Elitismo", 					 
 			    "Porcentaje de elitismo",           
 			    "elite",                     
 			    0, 100, 100));
-		config.addOption(new ChoiceOption<AGenetico>(	 
+		/*config.addOption(new ChoiceOption<AGenetico>(	 
 			    "Cruce",							 
 			    "Tipo de cruce de nuestro algoritmo", 					 
 			    "cruce",   							 
-			    CruceEnum.values()));
+			    MutaEnum.values()))*/
 		config.addOption(new ChoiceOption<AGenetico>(	 
 			    "Mutación",							 
 			    "Tipo de mutación de nuestro algoritmo", 					 
@@ -277,6 +285,8 @@ public class Ventana extends JFrame{
 
 		
 		JTextArea area=new JTextArea();
+		JScrollPane scrolly=new JScrollPane(area);
+		
 		textoEtiqueta(area);
 		area.setEditable(false);
 		area.setBackground(Color.LIGHT_GRAY);
@@ -284,7 +294,7 @@ public class Ventana extends JFrame{
 		
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                plot, area);
+                plot, scrolly);
 		splitPane.setDividerLocation(450);
 		splitPane.setResizeWeight(1);
 	//	splitPane.setSize(300, 300);
@@ -306,38 +316,18 @@ public class Ventana extends JFrame{
 		graf.add(cerrar, BorderLayout.SOUTH);
 		//frame.setContentPane(splitPane);
 		//frame.setVisible(true);
-		graficas.addTab("Grafica de Rutas", graf);
+		graficas.addTab("Grafica de árboles", graf);
 		graficas.setSelectedIndex(graficas.getComponentCount()-1);
-		///aaa
-		parteMapa();
-	}
-
-	private void parteMapa() {
-		/*map=new JFrame();
-		Lienzo l=new Lienzo();
-		l.setCromosoaFinal(aG.getCromosomaMejor());
-		map.setSize(800, 600);
-		map.setVisible(true);
-		map.add(l);*/
 		
 	}
 
 	private void textoEtiqueta(JTextArea area) {
 		String aux=null;
-		aux="  Valor "+ aG.getElMejor() + " en:"+'\n';
+		aux="  Valor "+ aG.getElMejor() + " en el árbol:"+'\n';
 		area.append(aux);
-		//int i=1;
-		//int contador=0;
+		
 		area.append(aG.getCromosomaMejor().valorFenotipo());
-		/*for (int fenotipo : aG.getCromosomaMejor().valorFenotipo())  {
-		      aux="    X"+i+"="+Distancias.CIUDADES[fenotipo];
-		      contador++;
-		      if (contador%6==0){
-		    	  aux=aux+'\n';
-		      }
-		      area.append(aux);
-		      i++;
-		}*/
+		
 	}
 
 }

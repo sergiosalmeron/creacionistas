@@ -3,17 +3,17 @@ package logica;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.sun.java.swing.plaf.motif.resources.motif;
 
 public class Arbol {
-	public static int MAX_PROFUNDIDAD = 8;
+	private static int MAX_PROFUNDIDAD;
+	private static int MAX_PROFUNDIDAD_CRUCE;
 	public static boolean INICIALIZACION_COMPLETA = false;
 	public static double PROB_BAJAR_NODO = 0.6;
 	
 	private final Character[] universal={'U','N','I','V','E','R','S','A','L'};
 	
 	private static double[] profundidadesGauss;
-	private static final int limiteIteracionesDU=2;
+	private static int limiteIteracionesDU;
 	
 	private Tipo tipo;
 	private int profundidad;
@@ -21,6 +21,12 @@ public class Arbol {
 	private Arbol[] hijos;
 	
 	private boolean valorBooleanoTerminal=true;
+	
+	public static void setValores(int tamArbol, int tamCruce, int numIter){
+		MAX_PROFUNDIDAD = tamArbol;
+		limiteIteracionesDU=numIter;
+		MAX_PROFUNDIDAD_CRUCE= tamCruce;
+	}
 	
 	
 	//(Math.random() < Tipo.PROB_TERMINAL) 
@@ -94,7 +100,6 @@ public class Arbol {
 	}
 	
 	public void cruza(Arbol b){
-		int topeMAX=MAX_PROFUNDIDAD+1;
 		double probabFunc=0.8;
 		ArrayList<Arbol> funsA =new ArrayList<Arbol>();
 		ArrayList<Arbol> funsB=new ArrayList<Arbol>();
@@ -114,7 +119,7 @@ public class Arbol {
 					bb=funsB.get(r.nextInt(funsB.size()));
 					int antesB=bb.profundidad;
 					int despuesB=bb.getProf(0, 0);
-					if ((antesA+despuesB>topeMAX)||(antesB+despuesA>topeMAX)){
+					if ((antesA+despuesB>MAX_PROFUNDIDAD_CRUCE)||(antesB+despuesA>MAX_PROFUNDIDAD_CRUCE)){
 						funsB.remove(bb);
 						bb=null;
 					}
@@ -471,7 +476,7 @@ public class Arbol {
 	}
 	
 	private String toString(String blancos) {
-		String retVal = blancos + tipo.name() + " (" + super.toString() + ")";
+		String retVal = blancos + tipo.name(); //+ " (" + super.toString() + ")";
 		if (hijos == null) return retVal;
 		for (int i = 0; i < hijos.length; i++) {
 			retVal += "\n" + hijos[i].toString(blancos + "  ");

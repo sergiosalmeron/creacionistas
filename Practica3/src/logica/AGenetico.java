@@ -11,10 +11,8 @@ import java.util.Random;
 import mutaciones.MutaEnum;
 import mutaciones.Mutacion;
 import mutaciones.MutacionArbol;
-
-
-import cruces.Cruce;
-import cruces.CruceEnum;
+import mutaciones.MutacionFuncion;
+import mutaciones.MutacionTerminal;
 import cruces.cruceArbol;
 
 import utils.ComparadorCromos;
@@ -32,6 +30,10 @@ public class AGenetico {
 	// private int generacionActual = 0;
 	private double mediaPoblacion = 0;
 	
+	//propiedades del árbol
+	private int tamArbol;
+	private int tamCruce;
+	private int numIter;
 
 
 	
@@ -45,9 +47,7 @@ public class AGenetico {
 	private Cromosoma[] elite;
 	private ComparadorCromos comp;
 	
-	// cruces
-	private CruceEnum cruce;
-	private Cruce cruceElegido;
+	
 	//mutaciones
 	private MutaEnum mutacion;
 	private Mutacion mutacionElegida;
@@ -58,8 +58,8 @@ public class AGenetico {
 	// Constructora //////////////////////////////////////////////////////
 
 	public AGenetico() {
-		this.tamPob = 100;
-		this.numMaxGen = 200;
+		this.tamPob = 50;
+		this.numMaxGen = 80;
 		this.probCruce = 0.4;
 		this.probMutacion = 0.075;
 		this.tamElite = 0;
@@ -69,6 +69,11 @@ public class AGenetico {
 		comp = new ComparadorCromos();
 		limiteContractividad=10;
 		maximizar=true;
+		
+		tamArbol=3;
+		tamCruce=5;
+		numIter=4;
+		Arbol.setValores(tamArbol, tamCruce, numIter);
 	}
 
 	// Inicialización //////////////////////////////////////////////////
@@ -419,9 +424,9 @@ public class AGenetico {
 	}
 
 	private void cruce(Cromosoma padre, Cromosoma madre) {
-		cruceElegido=new cruceArbol();
+		cruceArbol cruce=new cruceArbol();
 //System.out.println("el metodo \"cruce\" de AGenetico.java tiene una linea que hay que borrar: cruceElegido=new cruceArbol();");
-		cruceElegido.cruza(padre, madre);
+		cruce.cruza(padre, madre);
 		
 		/*boolean[] hijo = new boolean[padre.getLongCromosoma()];
 		boolean[] hija = new boolean[madre.getLongCromosoma()];
@@ -452,8 +457,6 @@ public class AGenetico {
 			boolean mutado = false;
 			probabilidad = r.nextDouble();
 			if (probabilidad < probMutacion) {
-//System.out.println("el metodo \"mutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
-				mutacionElegida=new MutacionArbol();
 				mutacionElegida.muta(pob[i]);
 				mutado = true;
 			}
@@ -549,45 +552,14 @@ public class AGenetico {
 	public double getBeta() {
 		return beta;
 	}
-
-	public void setCruce(CruceEnum cruce) {
-		/*switch (cruce) {
-		case PMX:
-			cruceElegido=new PMX();
-			break;
-		case OX:
-			cruceElegido=new OX();
-			break;
-		case OXposiciones:
-			cruceElegido=new OXPosciciones();
-			break;
-		case OXorden:
-			cruceElegido=new OXorden();
-			break;
-		case CX:
-			cruceElegido=new CX();
-			break;
-		case ERX:
-			cruceElegido=new RecombRutas();
-			break;
-		case CodOrdinal:
-			cruceElegido=new CodOrd();
-			break;
-		case OXDesplazado:
-			cruceElegido=new OXDesplazado();
-			break;
-		}*/
-		this.cruce = cruce;
-	}
-
-	public CruceEnum getCruce() {
-		return cruce;
-	}
 	
 	public void setMutacion(MutaEnum mutacion) {
+		switch (mutacion){
+		case Terminal: mutacionElegida=new MutacionTerminal();break;
+		case Función: mutacionElegida=new MutacionFuncion();break;
+		case Árbol: mutacionElegida=new MutacionArbol();break;
+		}
 		
-//System.out.println("el metodo \"setMutacion\" de AGenetico.java tiene una linea que hay que borrar: mutacionElegida=new MutacionArbol();");
-		mutacionElegida=new MutacionArbol();
 		this.mutacion = mutacion;
 	}
 
@@ -609,6 +581,33 @@ public class AGenetico {
 
 	public int getLimiteContractividad() {
 		return limiteContractividad;
+	}
+	
+	public int getTamArbol() {
+		return tamArbol;
+	}
+
+	public void setTamArbol(int tamArbol) {
+		this.tamArbol = tamArbol;
+		Arbol.setValores(tamArbol, tamCruce, numIter);
+	}
+
+	public int getTamCruce() {
+		return tamCruce;
+	}
+
+	public void setTamCruce(int tamCruce) {
+		this.tamCruce = tamCruce;
+		Arbol.setValores(tamArbol, tamCruce, numIter);
+	}
+
+	public int getNumIter() {
+		return numIter;
+	}
+
+	public void setNumIter(int numIter) {
+		this.numIter=numIter;
+		Arbol.setValores(tamArbol, tamCruce, numIter);
 	}
 
 }
