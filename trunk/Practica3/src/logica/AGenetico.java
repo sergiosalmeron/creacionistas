@@ -58,7 +58,7 @@ public class AGenetico {
 	// Constructora //////////////////////////////////////////////////////
 
 	public AGenetico() {
-		this.tamPob = 50;
+		this.tamPob = 30;
 		this.numMaxGen = 80;
 		this.probCruce = 0.4;
 		this.probMutacion = 0.075;
