@@ -271,25 +271,35 @@ public class Arbol {
 	}
 	
 	public void mutacionTerminal(){
+		int aaa=MAX_PROFUNDIDAD;
+		MAX_PROFUNDIDAD=MAX_PROFUNDIDAD_CRUCE;
 		int a=getNumElementos();
 		double b=Math.random()*a;
 		mutaTerminal(0, b);
+		MAX_PROFUNDIDAD=aaa;
 	}
 	
 	public void mutacionFuncional(){
+		int aaa=MAX_PROFUNDIDAD;
+		MAX_PROFUNDIDAD=MAX_PROFUNDIDAD_CRUCE;
 		int a=getNumElementos()-1;
 		if (a>=1){
 			double b=Math.random()*a;
 			mutaFuncional(0, b);
 		}
+		MAX_PROFUNDIDAD=aaa;
+
 	}
 	
 	public void mutacionArbol(){
+		int aaa=MAX_PROFUNDIDAD;
+		MAX_PROFUNDIDAD=MAX_PROFUNDIDAD_CRUCE;
 		int a=getNumElementos();
 		if (a>=1){
 			double b=Math.random()*a;
 			mutaArbol(0, b, null);
 		}
+		MAX_PROFUNDIDAD=aaa;
 	}
 	
 	private int mutaTerminal(int a, double p){
